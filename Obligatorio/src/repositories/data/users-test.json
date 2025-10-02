@@ -67,5 +67,13 @@
     "password": "$2b$10$x4gXxZ9YPba6dzmjjm5Nc.q6cvMB4UrrNuH5aCLnuSzYL4er1QYzO",
     "createdAt": "2025-10-02T02:48:14.356Z",
     "updatedAt": "2025-10-02T02:48:14.356Z"
+  },
+  {
+    "_id": "68ddee01c672819e3f363717",
+    "name": "Nuevo usuario",
+    "email": "juassn@test.com",
+    "password": "$2b$10$mRbEqFi290df0gk.E2KXiu6WNPq6H7G4QmfvobxH/uvoC7D3SGHa.",
+    "createdAt": "2025-10-02T03:14:09.887Z",
+    "updatedAt": "2025-10-02T03:14:09.887Z"
   }
 ]
