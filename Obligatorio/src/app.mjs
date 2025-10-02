@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import publicRoutes from './routes/public.mjs';
 
 const app = express();
 
@@ -12,7 +13,12 @@ app.get('/', (req, res) => {
   res.json({
     message: '¡Servidor funcionando correctamente!',
     timestamp: new Date().toISOString(),
-    status: 'OK'
+    status: 'OK',
+    endpoints: {
+      health: '/api/health',
+      login: '/login',
+      signup: '/signup'
+    }
   });
 });
 
@@ -22,7 +28,8 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    database: process.env.DB_TYPE || 'not configured'
   });
 });
 
@@ -34,6 +41,9 @@ app.get('/api/hello/:name', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Rutas de autenticación
+app.use('/', publicRoutes);
 
 // Manejo de rutas no encontradas
 app.use((req, res) => {
