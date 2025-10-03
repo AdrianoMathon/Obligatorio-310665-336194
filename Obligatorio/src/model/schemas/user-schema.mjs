@@ -1,26 +1,34 @@
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    password: { type: String, required: true },
+    name: { 
+        type: String, 
+        required: [true, 'El nombre es obligatorio'],
+        trim: true,
+        minlength: [2, 'Ingrese un nombre válido (mínimo 2 caracteres)'],
+    },
+    password: { 
+        type: String, 
+        required: [true, 'Ingrese una contraseña'],
+        minlength: [6, 'La contraseña debe tener al menos 6 caracteres']
+    },
     email: {
         type: String,
-        required: true,
-        lowercase: true, // convierte a minúsculas
-        match: [/.+@.+\..+/, 'Por favor ingresa un email válido'] // regex simple para validar email
+        required: [true, 'Ingrese un email'],
+        lowercase: true,
+        trim: true,
+        match: [/.+@.+\..+/, 'Por favor ingresa un email válido'] 
     },
-    edad: { type: Number },
     perfil: {
         type: [String],
-        enum: ["ADMIN", "USER"],
-        default: ["USER"]
+        enum: ["PLUS", "PREMIUM"],
+        default: ["PLUS"]
     }
 
 }, {
     timestamps: true
 })
 
-//indice email unico y ascendente
 userSchema.index({ email: 1 }, { unique: true });
 
 export default userSchema;

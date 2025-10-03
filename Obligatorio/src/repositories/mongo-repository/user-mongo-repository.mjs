@@ -1,9 +1,6 @@
 import User from "../../model/user.mjs";
 
-
-
 const userMongoRepository = {
-
 
     async createUser(data) {
         try {
@@ -16,8 +13,7 @@ const userMongoRepository = {
         }
     },
 
-
-    //obtiene todos los usuario ( quizas un admin)
+    //obtiene todos los usuario
     async getUsers() {
         return User.find();
     },
@@ -27,12 +23,11 @@ const userMongoRepository = {
         return User.findById(data).select("-password");
     },
 
-    //necesitamos el usuario con su password
+    //usuario con su password
     async getUserByEmail(data) {
         console.log('data', data)
         return User.findOne(data);
     },
-
 
 
     //actualiza el usuario
