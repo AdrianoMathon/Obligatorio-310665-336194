@@ -11,12 +11,11 @@ export const createUser = async (req, res) => {
         user.password = hashPassword;
         console.log('user', user)
         const userSaved = await userRepository.createUser(user);
-        const token = jwt.sign({ id: userSaved._id, email: email, roles: userSaved.roles }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: userSaved._id, email: email, perfil: userSaved.perfil }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
         res.status(201).json({ usuario: userSaved, token });
     } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(400).json({ message: "No pudo crear usuario", error: error.message });
+        res.status(400).json({ message: "No se pudo crear usuario", error: error.message });
     }
 }
 
@@ -29,13 +28,12 @@ export const loginUser = async (req, res) => {
         const validatePassword = await bcrypt.compare(password, passwordHash);
 
         if (validatePassword) {
-            const token = jwt.sign({ id: user._id, email: email, roles: user.roles }, process.env.JWT_SECRET, { expiresIn: "1h" });
+            const token = jwt.sign({ id: user._id, email: email, perfil: user.perfil }, process.env.JWT_SECRET, { expiresIn: "1h" });
             res.status(200).json({token: token});
         } else {
             res.status(401).json({ message: "Error en login, verifique credenciales" });
         }
     } catch (error) {
-        console.error('Error in login:', error);
         res.status(401).json({ message: "Error en login, verifique credenciales" });
     }
 }

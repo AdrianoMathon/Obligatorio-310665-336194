@@ -5,7 +5,7 @@ export const validateAuth = Joi.object({
     id: Joi.string().required(),
     email: Joi.string().regex(/.+@.+\..+/).required(),
     iat: Joi.number().integer(),
-    roles: Joi.array(),
+    perfil: Joi.array(),
     exp: Joi.date()
 });
 
