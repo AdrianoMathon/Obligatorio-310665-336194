@@ -1,6 +1,5 @@
 // Importa Mongoose, la librería para interactuar con MongoDB desde Node.js
 import mongoose from "mongoose";
-import { databaseTarget } from "../constants/database-target.mjs";
 
 // Importa las variables de entorno definidas en el archivo .env
 import "dotenv/config";
