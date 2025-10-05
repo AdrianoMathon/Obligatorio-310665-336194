@@ -31,8 +31,8 @@ const userMongoRepository = {
 
 
     //actualiza el usuario
-    async updateUser(data) {
-        return User.findByIdAndUpdate(data);
+    async updateUser(userId, updateData) {
+        return User.findByIdAndUpdate(userId, updateData, { new: true }).select("-password");
     },
 
 }

@@ -38,3 +38,23 @@ export const loginUser = async (req, res) => {
     }
 }
 
+export const upgradeUserToPremium = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        
+        // Verificar que el usuario es PLUS
+        const user = await userRepository.getUserById(userId);
+        if (!user.perfil.includes("PLUS")) {
+            return res.status(400).json({ message: "Solo usuarios PLUS pueden cambiar a PREMIUM" });
+        }
+        
+        const updatedUser = await userRepository.updateUser(userId, { perfil: ["PREMIUM"] });
+        res.status(200).json({ 
+            usuario: updatedUser, 
+            message: "Cambio exitoso a PREMIUM. Ahora tienes rutinas ilimitadas!" 
+        });
+    } catch (error) {
+        res.status(400).json({ message: "No se pudo actualizar el perfil" });
+    }
+}
+

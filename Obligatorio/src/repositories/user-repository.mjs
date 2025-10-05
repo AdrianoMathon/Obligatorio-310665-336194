@@ -7,8 +7,6 @@ let userRepository;
 
 if (process.env.DB_TYPE == baseConstant.MONGO) {
     userRepository = userMongoRepository;
-} else if (process.env.DB_TYPE == baseConstant.JSON) {
-    userRepository = userJsonRepository;
-}
+} 
 
 export default userRepository;

@@ -6,12 +6,7 @@ import reqValidate from "../constant/request-validate-constants.mjs";
 
 const routes = express.Router();
 
-
-
-
 routes.post("/signup", validateRequest(validateSingup, reqValidate.BODY), createUser);
 routes.post("/login", validateRequest(validateLogin, reqValidate.BODY), loginUser);
-
-
 
 export default routes;
