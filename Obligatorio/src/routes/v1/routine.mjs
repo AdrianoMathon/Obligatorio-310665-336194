@@ -2,7 +2,7 @@ import express from "express";
 import { countRoutinesByUser, createRoutine, deleteRoutine, getRoutineById, getRoutinesByUser, updateRoutine, getCategories } from "../../controllers/routine-controller.mjs";
 import { validateCreateRoutine, validateGetRoutineById, validateUpdateRoutine } from "../../validations/validation-routine.mjs";
 import { validateRequest } from "../../middleware/validation.middleware.mjs";
-import reqValidate from "../constants/request-validate-constants.mjs";
+import reqValidate from "../../constant/request-validate-constants.mjs";
 import { authMiddleware } from "../../middleware/auth-middleware.mjs";
 
 const routes = express.Router();
