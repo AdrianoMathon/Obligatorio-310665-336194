@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import routineSchema from "./schema/routineSchema.mjs";
+import routineSchema from "./schemas/routine-schema.mjs";
 
 const routine = mongoose.model("Routine", routineSchema);
 

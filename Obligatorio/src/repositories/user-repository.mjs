@@ -1,5 +1,4 @@
 import userMongoRepository from "./mongo-repository/user-mongo-repository.mjs";
-import userJsonRepository from "./json-repository/user-json-repository.mjs";
 import { baseConstant } from "../constant/base-constant.mjs";
 import "dotenv/config";
 
