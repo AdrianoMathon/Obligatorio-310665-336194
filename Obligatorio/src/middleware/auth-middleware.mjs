@@ -10,6 +10,7 @@ export const authMiddleware = (req, res, next) => {
 
     try {
         const authHeader = req.headers.authorization;
+        console.log('authHeader', authHeader);
         if (!authHeader) {
             res.status(401).json({ message: "No se pudo autenticar" });
         }

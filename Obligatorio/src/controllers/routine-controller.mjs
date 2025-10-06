@@ -45,6 +45,7 @@ export const getRoutineById = async (req, res) => {
 
 export const getRoutinesByUser = async (req, res) => {
     try {
+        console.log('req.user', req.user);
         const { id: userId } = req.user;
         const userRoutines = await routineRepository.getRoutineByUserId(userId);
         res.status(200).json({ rutinas: userRoutines });

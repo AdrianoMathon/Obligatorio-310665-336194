@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "61d5c113-110b-423a-9241-02d7e3a2595d",
+		"name": "Obligatorio-FS-310665-336194",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42512041"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"token\", response.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"usuario@ejemplo.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_base_url}}/login",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Juan\",\r\n  \"password\": \"123456\",\r\n  \"email\": \"usuario@ejemplo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_base_url}}/signup",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Routines",
+			"item": [
+				{
+					"name": "createRoutine",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "BEARER {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Rutina de Fuerza - Tren Superior\",\r\n  \"description\": \"Rutina enfocada en el desarrollo de fuerza del tren superior, ideal para principiantes e intermedios\",\r\n  \"category\": \"FUERZA\",\r\n  \"exercises\": [\r\n    {\r\n      \"name\": \"Press de banca\",\r\n      \"sets\": 4,\r\n      \"reps\": 8,\r\n      \"weight\": 60,\r\n      \"category\": \"Pecho\"\r\n    },\r\n    {\r\n      \"name\": \"Dominadas\",\r\n      \"sets\": 3,\r\n      \"reps\": 10,\r\n      \"weight\": 0,\r\n      \"category\": \"Espalda\"\r\n    },\r\n    {\r\n      \"name\": \"Press militar\",\r\n      \"sets\": 3,\r\n      \"reps\": 12,\r\n      \"weight\": 40,\r\n      \"category\": \"Hombros\"\r\n    },\r\n    {\r\n      \"name\": \"Curl de bíceps\",\r\n      \"sets\": 3,\r\n      \"reps\": 15,\r\n      \"weight\": 15,\r\n      \"category\": \"Brazos\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_base_url}}/routines/",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRoutinesbyUsers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "BEARER {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dev_base_url}}/routines/",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "dev_base_url",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		}
+	]
+}
