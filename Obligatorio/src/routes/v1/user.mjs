@@ -1,6 +1,6 @@
 import express from "express";
-import { upgradeUserToPremium } from "../controllers/user-controller.mjs";
-import { authMiddleware } from "../middleware/auth-middleware.mjs";
+import { upgradeUserToPremium } from "../../controllers/user-controller.mjs";
+import { authMiddleware } from "../../middleware/auth-middleware.mjs";
 
 const routes = express.Router();
 

@@ -1,57 +1,33 @@
-import express from 'express';
-import cors from 'cors';
-import publicRoutes from './routes/public.mjs';
+import express from "express";
+import "dotenv/config";
+import { connectMongo } from "./config/mongo-config.mjs";
+import v1Publicas from "./routes/v1/public.mjs";
+import v1Users from "./routes/v1/user.mjs";
+import v1Routines from "./routes/v1/routine.mjs";
 
 const app = express();
+const port = process.env.PORT ?? 3000;
 
-// Middleware
-app.use(cors());
+console.log('Conexion a mongo DB');
+connectMongo();
+
 app.use(express.json());
 
-// Ruta de prueba básica
-app.get('/', (req, res) => {
-  res.json({
-    message: '¡Servidor funcionando correctamente!',
-    timestamp: new Date().toISOString(),
-    status: 'OK',
-    endpoints: {
-      health: '/api/health',
-      login: '/login',
-      signup: '/signup'
+// Rutas públicas
+app.use("/api/v1", v1Publicas);
+
+// Rutas protegidas
+app.use("/api/v1/users", v1Users);
+app.use("/api/v1/routines", v1Routines);
+
+// Manejo de errores global
+app.use((err, req, res, next) => {
+    console.log('err', err);
+    if (err.message) {
+        res.status(err.statusCode).json({ message: err.message });
+    } else {
+        res.status(500).json({ message: "Error no controlado" });
     }
-  });
-});
-
-// Ruta de prueba para verificar la API
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-    database: process.env.DB_TYPE || 'not configured'
-  });
-});
-
-// Ruta para probar parámetros
-app.get('/api/hello/:name', (req, res) => {
-  const { name } = req.params;
-  res.json({
-    message: `¡Hola ${name}!`,
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Rutas de autenticación
-app.use('/', publicRoutes);
-
-// Manejo de rutas no encontradas
-app.use((req, res) => {
-  res.status(404).json({
-    error: 'Ruta no encontrada',
-    path: req.originalUrl,
-    method: req.method
-  });
 });
 
 export default app;
