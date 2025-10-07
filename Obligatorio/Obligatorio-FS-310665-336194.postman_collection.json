@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "61d5c113-110b-423a-9241-02d7e3a2595d",
+		"_postman_id": "2aac1c66-97d5-49af-bde3-876b4f5eccc9",
 		"name": "Obligatorio-FS-310665-336194",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "42512041"
+		"_exporter_id": "42449095"
 	},
 	"item": [
 		{
@@ -73,12 +73,109 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "upgradePremium",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Upgrade exitoso\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Usuario actualizado a PREMIUM\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response).to.have.property('message');",
+									"});",
+									"",
+									"// Actualizar perfil en variables de entorno",
+									"if (pm.response.code === 200) {",
+									"    pm.environment.set(\"userProfile\", \"PREMIUM\");",
+									"    console.log(\"Perfil actualizado a PREMIUM\");",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dev_base_url}}/users/upgrade-premium",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"users",
+								"upgrade-premium"
+							]
+						},
+						"description": "Actualiza el perfil del usuario de PLUS a PREMIUM, eliminando el límite de 10 rutinas."
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Routines",
 			"item": [
+				{
+					"name": "getCategories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Categorías obtenidas exitosamente\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contiene categorías\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response).to.have.property('categories');",
+									"    pm.expect(response.categories).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dev_base_url}}/routines/categories",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								"categories"
+							]
+						},
+						"description": "Obtiene la lista de categorías disponibles para las rutinas."
+					},
+					"response": []
+				},
 				{
 					"name": "createRoutine",
 					"request": {
@@ -143,6 +240,97 @@
 								""
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserRoutines",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutinas obtenidas exitosamente\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response es un array\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dev_base_url}}/routines",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines"
+							]
+						},
+						"description": "Obtiene todas las rutinas del usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "countUserRoutines",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Conteo exitoso\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contiene count\", function () {",
+									"    const response = pm.response.json();",
+									"    pm.expect(response).to.have.property('routineCount');",
+									"    pm.expect(response.routineCount).to.be.a('number');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dev_base_url}}/routines/count/",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								"count",
+								""
+							]
+						},
+						"description": "Cuenta el número total de rutinas del usuario especificado."
 					},
 					"response": []
 				}
