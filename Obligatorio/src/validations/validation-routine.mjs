@@ -14,7 +14,7 @@ export const validateCreateRoutine = Joi.object({
             sets: Joi.number().min(1).optional(),
             reps: Joi.number().min(1).optional(),
             weight: Joi.number().min(0).optional(),
-            category: Joi.string().optional()
+            muscle: Joi.string().optional()
         })
     ).optional()
 });

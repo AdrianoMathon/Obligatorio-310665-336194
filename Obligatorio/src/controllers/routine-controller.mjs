@@ -92,11 +92,29 @@ export const deleteRoutine = async (req, res) => {
 
 export const countRoutinesByUser = async (req, res) => {
     try {
+        console.log('req.params:', req.params);
+        console.log('req.user:', req.user);
+        
+        // Usar userId del parámetro si existe, sino usar el del token
         const userId = req.params.userId || req.user.id;
+        
+        // Si se especifica un userId en la URL, validar que coincida con el usuario autenticado
+        if (req.params.userId && req.params.userId !== req.user.id) {
+            return res.status(403).json({ message: "Solo puedes consultar el conteo de tus propias rutinas" });
+        }
+        
         const count = await routineRepository.countRoutinesByUserId(userId);
-        res.status(200).json({ message: `Cantidad de rutinas: ${count}` });
+        res.status(200).json({ 
+            userId: userId,
+            routineCount: count,
+            message: `Cantidad de rutinas: ${count}` 
+        });
     } catch (error) {
-        res.status(404).json({ message: "No se pudo obtener el conteo de rutinas" });
+        console.error('Error en countRoutinesByUser:', error);
+        res.status(500).json({ 
+            message: "No se pudo obtener el conteo de rutinas", 
+            error: error.message 
+        });
     }
 }
 

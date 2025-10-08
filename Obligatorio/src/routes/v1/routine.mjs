@@ -12,7 +12,8 @@ routes.use(authMiddleware);
 
 // Rutas públicas para usuarios autenticados
 routes.get("/categories", getCategories);
-routes.get("/count/:userId", countRoutinesByUser); // Sin validación de perfil
+routes.get("/count", countRoutinesByUser); // Conteo de rutinas del usuario autenticado
+routes.get("/count/:userId", countRoutinesByUser); // Sin validación de perfil (para compatibilidad)
 routes.post("/", validateRequest(validateCreateRoutine, reqValidate.BODY), createRoutine);
 routes.get("/", getRoutinesByUser);
 routes.get("/:id", validateRequest(validateGetRoutineById, reqValidate.PARAM), getRoutineById);

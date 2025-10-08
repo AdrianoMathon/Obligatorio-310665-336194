@@ -15,7 +15,7 @@ const routineSchema = new mongoose.Schema({
         sets: Number,
         reps: Number,
         weight: Number,
-        category: String
+        muscle: String
     }],
     category: {
         type: String,
