@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Users",
+			"name": "Authentication",
 			"item": [
 				{
 					"name": "login",
@@ -73,7 +73,12 @@
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
 				{
 					"name": "upgradePremium",
 					"event": [
