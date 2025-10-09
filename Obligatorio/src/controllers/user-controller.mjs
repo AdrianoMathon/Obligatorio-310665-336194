@@ -2,8 +2,9 @@ import userRepository from "../repositories/user-repository.mjs";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import { createError } from "../error/create-error.mjs";
 
-export const createUser = async (req, res) => {
+export const createUser = async (req, res, next) => {
     try {
         const user = req.body;
         const { password, email } = user;
@@ -11,7 +12,7 @@ export const createUser = async (req, res) => {
         // Verificar si el usuario ya existe antes de crear
         const existingUser = await userRepository.getUserByEmail({ email });
         if (existingUser) {
-            return res.status(409).json({ message: "Usuario ya existe" }); 
+            throw createError("Usuario ya existe", 409);
         }
         
         // Hashear la contraseña DESPUÉS de que JOI la haya validado
@@ -23,19 +24,24 @@ export const createUser = async (req, res) => {
 
         res.status(201).json({ usuario: userSaved, token });
     } catch (error) {
-        console.error("Error creating user:", error);
-        res.status(400).json({ message: "No se pudo crear usuario", error: error.message });
+        if (error.statusCode) {
+            // Error creado con createError
+            next(error);
+        } else {
+            // Error no controlado
+            next(createError("No se pudo crear usuario", 400));
+        }
     }
 }
 
 
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = await userRepository.getUserByEmail({ email });
         
         if (!user) {
-            return res.status(401).json({ message: "Error en login, verifique credenciales" });
+            throw createError("Error en login, verifique credenciales", 401);
         }
         
         const { password: passwordHash } = user;
@@ -45,21 +51,25 @@ export const loginUser = async (req, res) => {
             const token = jwt.sign({ id: user._id, email: email, perfil: user.perfil }, process.env.JWT_SECRET, { expiresIn: "1h" });
             res.status(200).json({ token: token });
         } else {
-            res.status(401).json({ message: "Error en login, verifique credenciales" });
+            throw createError("Error en login, verifique credenciales", 401);
         }
     } catch (error) {
-        res.status(401).json({ message: "Error en login, verifique credenciales" });
+        if (error.statusCode) {
+            next(error);
+        } else {
+            next(createError("Error en login, verifique credenciales", 401));
+        }
     }
 }
 
-export const upgradeUserToPremium = async (req, res) => {
+export const upgradeUserToPremium = async (req, res, next) => {
     try {
         const userId = req.user.id;
         
         // Verificar que el usuario es PLUS
         const user = await userRepository.getUserById(userId);
         if (!user.perfil.includes("PLUS")) {
-            return res.status(400).json({ message: "Solo usuarios PLUS pueden cambiar a PREMIUM" });
+            throw createError("Solo usuarios PLUS pueden cambiar a PREMIUM", 400);
         }
         
         const updatedUser = await userRepository.updateUser(userId, { perfil: ["PREMIUM"] });
@@ -68,7 +78,11 @@ export const upgradeUserToPremium = async (req, res) => {
             message: "Cambio exitoso a PREMIUM. Ahora tienes rutinas ilimitadas!" 
         });
     } catch (error) {
-        res.status(400).json({ message: "No se pudo actualizar el perfil" });
+        if (error.statusCode) {
+            next(error);
+        } else {
+            next(createError("No se pudo actualizar el perfil", 400));
+        }
     }
 }
 

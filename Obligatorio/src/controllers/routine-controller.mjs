@@ -3,7 +3,7 @@ import routineRepository from "../repositories/routine-repository.mjs";
 import userRepository from "../repositories/user-repository.mjs";
 import routineSchema from "../model/schemas/routine-schema.mjs";
 
-export const createRoutine = async (req, res) => {
+export const createRoutine = async (req, res, next) => {
     try {
         const routine = req.body;
         const userId = req.user.id;
@@ -15,18 +15,22 @@ export const createRoutine = async (req, res) => {
 
         if (user.perfil.includes("PLUS") && !user.perfil.includes("PREMIUM")) {
             if (routineCount >= 10) {
-                return res.status(400).json({ message: "Los usuarios PLUS pueden crear un máximo de 10 rutinas. Cambiate a PREMIUM para rutinas ilimitadas." });
+                throw createError("Los usuarios PLUS pueden crear un máximo de 10 rutinas. Cambiate a PREMIUM para rutinas ilimitadas.", 403);
             }
         }
 
         const rutina = await routineRepository.createRoutine(routine);
         res.status(201).json({ rutina });
     } catch (error) {
-        res.status(400).json({ message: "No se pudo crear la rutina" });
+        if (error.statusCode) {
+            next(error);
+        } else {
+            next(createError("No se pudo crear la rutina", 400));
+        }
     }
 }
 
-export const getRoutineById = async (req, res) => {
+export const getRoutineById = async (req, res, next) => {
     try {
         const _id = req.params.id;
         const userId = req.user.id;
@@ -34,32 +38,36 @@ export const getRoutineById = async (req, res) => {
 
         // Verificar si la rutina existe
         if (!rutina) {
-            return res.status(404).json({ message: "Rutina no encontrada" });
+            throw createError("Rutina no encontrada", 404);
         }
 
         // Verificar que la rutina pertenece al usuario
         if (rutina.userId.toString() !== userId) {
-            return res.status(403).json({ message: "No tienes acceso a esta rutina" });
+            throw createError("No tienes acceso a esta rutina", 403);
         }
 
         res.status(200).json({ rutina });
     } catch (error) {
-        res.status(500).json({ message: "Error interno del servidor" });
+        if (error.statusCode) {
+            next(error);
+        } else {
+            next(createError("Error interno del servidor", 500));
+        }
     }
 }
 
-export const getRoutinesByUser = async (req, res) => {
+export const getRoutinesByUser = async (req, res, next) => {
     try {
         console.log('req.user', req.user);
         const { id: userId } = req.user;
         const userRoutines = await routineRepository.getRoutineByUserId(userId);
         res.status(200).json({ rutinas: userRoutines });
     } catch (error) {
-        res.status(400).json({ message: "No se pudieron obtener las rutinas" });
+        next(createError("No se pudieron obtener las rutinas", 400));
     }
 }
 
-export const updateRoutine = async (req, res) => {
+export const updateRoutine = async (req, res, next) => {
     try {
         const _id = req.params.id;
         const userId = req.user.id;
@@ -67,35 +75,49 @@ export const updateRoutine = async (req, res) => {
 
         // Verificar que la rutina pertenece al usuario antes de actualizar
         const existingRoutine = await routineRepository.getRoutineById(_id);
+        if (!existingRoutine) {
+            throw createError("Rutina no encontrada", 404);
+        }
         if (existingRoutine.userId.toString() !== userId) {
-            return res.status(403).json({ message: "No tienes acceso a esta rutina" });
+            throw createError("No tienes acceso a esta rutina", 403);
         }
 
         const rutina = await routineRepository.updateRoutine(_id, updateData);
         res.status(200).json({ rutina, message: "Rutina actualizada correctamente" });
     } catch (error) {
-        res.status(400).json({ message: "No se pudo actualizar la rutina" });
+        if (error.statusCode) {
+            next(error);
+        } else {
+            next(createError("No se pudo actualizar la rutina", 400));
+        }
     }
 }
 
-export const deleteRoutine = async (req, res) => {
+export const deleteRoutine = async (req, res, next) => {
     try {
         const _id = req.params.id;
         const userId = req.user.id;
         // Verificar que la rutina pertenece al usuario antes de eliminar
         const existingRoutine = await routineRepository.getRoutineById(_id);
+        if (!existingRoutine) {
+            throw createError("Rutina no encontrada", 404);
+        }
         if (existingRoutine.userId.toString() !== userId) {
-            return res.status(403).json({ message: "No tienes acceso a esta rutina" });
+            throw createError("No tienes acceso a esta rutina", 403);
         }
 
         await routineRepository.deleteRoutine(_id);
         res.status(200).json({ message: "Rutina eliminada correctamente" });
     } catch (error) {
-        res.status(400).json({ message: "No se pudo eliminar la rutina" });
+        if (error.statusCode) {
+            next(error);
+        } else {
+            next(createError("No se pudo eliminar la rutina", 400));
+        }
     }
 }
 
-export const countRoutinesByUser = async (req, res) => {
+export const countRoutinesByUser = async (req, res, next) => {
     try {
         console.log('req.params:', req.params);
         console.log('req.user:', req.user);
@@ -105,7 +127,7 @@ export const countRoutinesByUser = async (req, res) => {
         
         // Si se especifica un userId en la URL, validar que coincida con el usuario autenticado
         if (req.params.userId && req.params.userId !== req.user.id) {
-            return res.status(403).json({ message: "Solo puedes consultar el conteo de tus propias rutinas" });
+            throw createError("Solo puedes consultar el conteo de tus propias rutinas", 403);
         }
         
         const count = await routineRepository.countRoutinesByUserId(userId);
@@ -116,18 +138,19 @@ export const countRoutinesByUser = async (req, res) => {
         });
     } catch (error) {
         console.error('Error en countRoutinesByUser:', error);
-        res.status(500).json({ 
-            message: "No se pudo obtener el conteo de rutinas", 
-            error: error.message 
-        });
+        if (error.statusCode) {
+            next(error);
+        } else {
+            next(createError("No se pudo obtener el conteo de rutinas", 500));
+        }
     }
 }
 
-export const getCategories = async (req, res) => {
+export const getCategories = async (req, res, next) => {
     try {
         const categories = routineSchema.path('category').enumValues;
         res.status(200).json({ categorias: categories });
     } catch (error) {
-        res.status(400).json({ message: "No se pudieron obtener las categorías" });
+        next(createError("No se pudieron obtener las categorías", 400));
     }
 }
