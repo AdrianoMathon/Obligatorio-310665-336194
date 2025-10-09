@@ -489,3 +489,5 @@
 [2025-10-09T18:13:59.969Z] METHOD: POST /api/v1/routines/
 [2025-10-09T18:14:00.158Z] METHOD: PATCH /api/v1/users/upgrade-premium
 [2025-10-09T18:14:00.357Z] METHOD: POST /api/v1/routines/
+[2025-10-09T20:03:44.713Z] METHOD: POST /api/v1/signup
+[2025-10-09T20:03:58.743Z] METHOD: POST /api/v1/signup

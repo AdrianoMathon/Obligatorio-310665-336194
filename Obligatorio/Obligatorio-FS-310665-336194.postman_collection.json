@@ -1216,6 +1216,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -1226,6 +1227,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -1235,23 +1237,19 @@
 	"variable": [
 		{
 			"key": "dev_base_url",
-			"value": "http://localhost:3000/api/v1",
-			"type": "string"
+			"value": "http://localhost:3000/api/v1"
 		},
 		{
 			"key": "prod_base_url",
-			"value": "https://tu-app.vercel.app/api/v1",
-			"type": "string"
+			"value": "https://tu-app.vercel.app/api/v1"
 		},
 		{
 			"key": "userProfile",
-			"value": "PLUS",
-			"type": "string"
+			"value": "PLUS"
 		},
 		{
 			"key": "token",
-			"value": "",
-			"type": "string"
+			"value": ""
 		},
 		{
 			"key": "userId",
@@ -1271,8 +1269,7 @@
 		},
 		{
 			"key": "token_premium",
-			"value": "",
-			"type": "string"
+			"value": ""
 		},
 		{
 			"key": "randomName",
