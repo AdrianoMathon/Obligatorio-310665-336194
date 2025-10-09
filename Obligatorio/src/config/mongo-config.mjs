@@ -16,17 +16,16 @@ const {
     MONGO_ATLAS_PASS
 } = process.env;
 
+// Construye la URI de conexión a MongoDB usando las variables anteriores
 let MONGO_URI;
 if (MONGO_BD_IN_USE === "atlas") {
     MONGO_URI = `mongodb+srv://${MONGO_ATLAS_USER}:${MONGO_ATLAS_PASS}@obligatoriomathon.fmzz8vj.mongodb.net/?retryWrites=true&w=majority&appName=ObligatorioMathon`;
 
 } else {
-    // MONGO_URI = `mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}`;
     MONGO_URI = `mongodb+srv://${MONGO_ATLAS_USER}:${MONGO_ATLAS_PASS}@obligatoriomathon.fmzz8vj.mongodb.net/?retryWrites=true&w=majority&appName=ObligatorioMathon`;
 
 }
 
-// Construye la URI de conexión a MongoDB usando las variables anteriores
 
 // Función asíncrona para conectar a la base de datos MongoDB
 export async function connectMongo() {

@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "d8e0aba8-a852-4411-b490-aae9c08277bc",
-		"name": "Obligatorio-FS-310665-336194 Copy 2",
+		"_postman_id": "b9bb27ec-2c58-48c6-be84-1829619eace3",
+		"name": "Obligatorio-FS-310665-336194",
 		"description": "Colección Postman - Obligatorio Full Stack  \n**Estudiantes:** 310665 - 336194",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "42449095"
+		"_exporter_id": "42512041"
 	},
 	"item": [
 		{
@@ -183,7 +183,7 @@
 									"let response = pm.response.json();",
 									"let token = response.token;",
 									"",
-									"// Guardar el token para otros requests",
+									"// Guardar el token ",
 									"pm.collectionVariables.set(\"token\", token);",
 									"",
 									"// Decodificar la parte del payload ",
@@ -207,7 +207,8 @@
 									" "
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						},
 						{
@@ -217,7 +218,8 @@
 									""
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -782,6 +784,21 @@
 				},
 				{
 					"name": "Contar rutinas del usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Conteo de rutinas exitoso\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -1185,7 +1202,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Rutina 11 - PREMIUM Success\",\n  \"description\": \"Esta rutina debería crearse exitosamente con PREMIUM\",\n  \"category\": \"HIIT\",\n  \"exercises\": [\n    {\n      \"name\": \"HIIT Avanzado\",\n      \"sets\": 5,\n      \"reps\": 20,\n      \"weight\": 0,\n      \"muscle\": \"HIIT\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"Rutina 11 - PREMIUM exitoso\",\n  \"description\": \"Esta rutina debería crearse exitosamente con PREMIUM\",\n  \"category\": \"HIIT\",\n  \"exercises\": [\n    {\n      \"name\": \"HIIT Avanzado\",\n      \"sets\": 5,\n      \"reps\": 20,\n      \"weight\": 0,\n      \"muscle\": \"HIIT\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"

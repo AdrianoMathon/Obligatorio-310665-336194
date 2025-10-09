@@ -22,7 +22,7 @@ const userMongoRepository = {
         }
     },
 
-    //posiblemente para obtener datos de un usuario
+    //obtiene un usuario por id sin su password
     async getUserById(data) {
         try {
             return await User.findById(data).select("-password");
