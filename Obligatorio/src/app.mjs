@@ -10,9 +10,19 @@ const app = express();
 const port = process.env.PORT ?? 3000;
 
 console.log('Conexion a mongo DB');
-connectMongo();
+// TEMPORAL: Desactivo MongoDB para test
+// connectMongo();
 
 app.use(express.json());
+
+// Test route - TEMPORAL
+app.get("/test", (req, res) => {
+    res.json({ 
+        message: "Vercel funciona!", 
+        timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV || "undefined"
+    });
+});
 
 // Middleware de logging
 app.use((req, res, next) => {
