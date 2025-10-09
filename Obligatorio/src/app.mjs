@@ -27,11 +27,6 @@ app.use("/api/v1", v1Publicas);
 app.use("/api/v1/users", v1Users);
 app.use("/api/v1/routines", v1Routines);
 
-// Test route - TEMPORAL
-app.get("/test", (req, res) => {
-    res.json({ message: "Vercel funciona!", timestamp: new Date().toISOString() });
-});
-
 // Manejo de errores global
 app.use((err, req, res, next) => {
     console.log('err', err);
