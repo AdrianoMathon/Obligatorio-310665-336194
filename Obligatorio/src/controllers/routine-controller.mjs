@@ -32,6 +32,11 @@ export const getRoutineById = async (req, res) => {
         const userId = req.user.id;
         const rutina = await routineRepository.getRoutineById(_id);
 
+        // Verificar si la rutina existe
+        if (!rutina) {
+            return res.status(404).json({ message: "Rutina no encontrada" });
+        }
+
         // Verificar que la rutina pertenece al usuario
         if (rutina.userId.toString() !== userId) {
             return res.status(403).json({ message: "No tienes acceso a esta rutina" });
@@ -39,7 +44,7 @@ export const getRoutineById = async (req, res) => {
 
         res.status(200).json({ rutina });
     } catch (error) {
-        res.status(404).json({ message: "No se pudo obtener la rutina" });
+        res.status(500).json({ message: "Error interno del servidor" });
     }
 }
 

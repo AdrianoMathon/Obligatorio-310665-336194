@@ -9,8 +9,8 @@ const userSchema = new mongoose.Schema({
     },
     password: { 
         type: String, 
-        required: [true, 'Ingrese una contraseña'],
-        minlength: [6, 'La contraseña debe tener al menos 6 caracteres']
+        required: [true, 'Ingrese una contraseña']
+        // La validación de formato se hace en JOI antes del hash
     },
     email: {
         type: String,

@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "8cfc67b0-7049-4c6f-a1df-16d8b0120d60",
-		"name": "Obligatorio-FS-310665-336194-COMPLETA",
-		"description": "Colección completa con todos los endpoints para el obligatorio de Full Stack",
+		"_postman_id": "60dacf5d-bcdc-4c2c-afc3-c3274aa6c836",
+		"name": "Obligatorio-FS-310665-336194",
+		"description": "Colección con todos los endpoints para el obligatorio de Full Stack",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "42449095"
+		"_exporter_id": "42512041"
 	},
 	"item": [
 		{
@@ -12,6 +12,46 @@
 			"item": [
 				{
 					"name": "Registro exitoso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"pm.collectionVariables.set(\"user\", JSON.stringify(response));\r",
+									"pm.test(\"Usuario registrado correctamente\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let timestamp = Date.now();\r",
+									"let randomNum = Math.floor(Math.random() * 10000);\r",
+									"let randomName = pm.variables.replaceIn('{{$randomFullName}}');\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomName\", randomName);\r",
+									"pm.collectionVariables.set(\"randomEmail\", `user${timestamp}@mail.com`);\r",
+									"pm.collectionVariables.set(\"randomPassword\", `Password${randomNum}`);\r",
+									"\r",
+									"console.log(\"====================\");\r",
+									"console.log(\"🆕 USUARIO GENERADO:\");\r",
+									"console.log(\"Nombre:\", pm.collectionVariables.get(\"randomName\"));\r",
+									"console.log(\"Email:\", pm.collectionVariables.get(\"randomEmail\"));\r",
+									"console.log(\"Password:\", pm.collectionVariables.get(\"randomPassword\"));\r",
+									"console.log(\"Longitud password:\", pm.collectionVariables.get(\"randomPassword\").length);\r",
+									"console.log(\"====================\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -22,7 +62,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Juan Pérez\",\n  \"password\": \"123456\",\n  \"email\": \"usuario@ejemplo.com\"\n}",
+							"raw": "{\n  \"name\": \"{{randomName}}\",\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"{{randomPassword}}\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,6 +84,20 @@
 				},
 				{
 					"name": "Registro con datos incorrectos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registro rechazado correctamente\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -76,6 +130,20 @@
 				},
 				{
 					"name": "Registro usuario duplicado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Registro duplicado rechazado\", () => {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -86,7 +154,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Usuario Duplicado\",\n  \"password\": \"123456\",\n  \"email\": \"usuario@ejemplo.com\"\n}",
+							"raw": "{\n  \"name\": \"Juan\",\n  \"password\": \"Password123!\",\n  \"email\": \"juan@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,12 +181,44 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const response = pm.response.json();",
-									"pm.environment.set(\"token\", response.token);"
+									"let response = pm.response.json();",
+									"let token = response.token;",
+									"",
+									"// Guardar el token para otros requests",
+									"pm.collectionVariables.set(\"token\", token);",
+									"",
+									"// Decodificar la parte del payload ",
+									"function decodeBase64Url(str) {",
+									"    str = str.replace(/-/g, '+').replace(/_/g, '/');",
+									"    while (str.length % 4) str += '=';",
+									"    return Buffer.from(str, 'base64').toString('utf8');",
+									"}",
+									"",
+									"let payload = JSON.parse(decodeBase64Url(token.split('.')[1]));",
+									"console.log(\"Payload decodificado:\", payload);",
+									"",
+									"// Guardar datos específicos en variables",
+									"pm.collectionVariables.set(\"userId\", payload.id);",
+									"pm.collectionVariables.set(\"userEmail\", payload.email);",
+									"",
+									"pm.test(\"Login exitoso\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									" ",
+									" "
 								],
 								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -132,7 +232,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"prueba11@ejemplo.com\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n  \"email\": \"{{randomEmail}}\",\n  \"password\": \"{{randomPassword}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -154,6 +254,20 @@
 				},
 				{
 					"name": "Login con credenciales incorrectas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Login con credenciales inválidas rechazado correctamente\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -191,15 +305,20 @@
 			"name": "Users",
 			"item": [
 				{
-					"name": "Upgrade PLUS → PREMIUM (exitoso)",
+					"name": "Upgrade PLUS a PREMIUM (exitoso)",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"De PLUS a PREMIUM exitoso\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
 									"if (pm.response.code === 200) {",
-									"    pm.environment.set(\"userProfile\", \"PREMIUM\");",
-									"    console.log(\"Perfil actualizado a PREMIUM\");",
+									"    // Guardar el mismo token pero ahora como PREMIUM",
+									"    pm.collectionVariables.set(\"token_premium\", pm.collectionVariables.get(\"token\"));",
+									"    pm.collectionVariables.set(\"userProfile\", \"PREMIUM\");",
 									"}"
 								],
 								"type": "text/javascript",
@@ -232,6 +351,20 @@
 				},
 				{
 					"name": "Upgrade desde cuenta no PLUS (error)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Upgrade rechazado correctamente, ya es PREMIUM\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -263,6 +396,20 @@
 			"item": [
 				{
 					"name": "Obtener categorías",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Categorías obtenidas exitosamente\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -293,10 +440,15 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"pm.test(\"Rutina creada exitosamente\", () => {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"// Guardar el ID de la rutina recién creada",
 									"if (pm.response.code === 201) {",
 									"    const response = pm.response.json();",
-									"    pm.environment.set(\"routineId\", response.rutina._id);",
-									"    console.log(\"Rutina creada con ID:\", response.rutina._id);",
+									"    pm.collectionVariables.set(\"routineId\", response.rutina._id);",
+									"",
 									"}"
 								],
 								"type": "text/javascript",
@@ -320,7 +472,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Rutina de Fuerza - Tren Superior\",\n  \"description\": \"Rutina enfocada en el desarrollo de fuerza del tren superior\",\n  \"category\": \"FUERZA\",\n  \"exercises\": [\n    {\n      \"name\": \"Press de banca\",\n      \"sets\": 4,\n      \"reps\": 8,\n      \"weight\": 60,\n      \"category\": \"Pecho\"\n    },\n    {\n      \"name\": \"Dominadas\",\n      \"sets\": 3,\n      \"reps\": 10,\n      \"weight\": 0,\n      \"category\": \"Espalda\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"Rutina de Fuerza - Tren Superior\",\n  \"description\": \"Rutina enfocada en el desarrollo de fuerza del tren superior\",\n  \"category\": \"FUERZA\",\n  \"exercises\": [\n    {\n      \"name\": \"Press de banca\",\n      \"sets\": 4,\n      \"reps\": 8,\n      \"weight\": 60,\n      \"muscle\": \"Pecho\"\n    },\n    {\n      \"name\": \"Dominadas\",\n      \"sets\": 3,\n      \"reps\": 10,\n      \"weight\": 0,\n      \"muscle\": \"Espalda\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -343,6 +495,20 @@
 				},
 				{
 					"name": "Crear rutina (datos inválidos)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina con datos inválidos rechazada\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -382,6 +548,20 @@
 				},
 				{
 					"name": "Obtener rutinas del usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutinas obtenidas exitosamente\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -392,13 +572,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{dev_base_url}}/routines/",
+							"raw": "{{dev_base_url}}/routines",
 							"host": [
 								"{{dev_base_url}}"
 							],
 							"path": [
-								"routines",
-								""
+								"routines"
 							]
 						},
 						"description": "Obtiene todas las rutinas del usuario autenticado"
@@ -407,12 +586,41 @@
 				},
 				{
 					"name": "Obtener rutina por ID (propia)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina obtenida exitosamente\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -432,6 +640,20 @@
 				},
 				{
 					"name": "Obtener rutina por ID (ajena - error 403)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina con otro ID sin acceso, no obtenida\", () => {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -442,13 +664,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{dev_base_url}}/routines/507f1f77bcf86cd799439011",
+							"raw": "{{dev_base_url}}/routines/68e710be79cf6797c66d3da1",
 							"host": [
 								"{{dev_base_url}}"
 							],
 							"path": [
 								"routines",
-								"507f1f77bcf86cd799439011"
+								"68e710be79cf6797c66d3da1"
 							]
 						},
 						"description": "Intento de acceder a rutina de otro usuario"
@@ -457,6 +679,20 @@
 				},
 				{
 					"name": "Actualizar rutina (exitosa)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina actualizada exitosamente\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -473,7 +709,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Rutina de Fuerza - Tren Superior ACTUALIZADA\",\n  \"description\": \"Rutina actualizada con nuevos ejercicios\",\n  \"category\": \"FUERZA\",\n  \"exercises\": [\n    {\n      \"name\": \"Press de banca\",\n      \"sets\": 5,\n      \"reps\": 6,\n      \"weight\": 70,\n      \"category\": \"Pecho\"\n    },\n    {\n      \"name\": \"Dominadas\",\n      \"sets\": 4,\n      \"reps\": 8,\n      \"weight\": 10,\n      \"category\": \"Espalda\"\n    },\n    {\n      \"name\": \"Sentadillas\",\n      \"sets\": 4,\n      \"reps\": 12,\n      \"weight\": 80,\n      \"category\": \"Piernas\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"Rutina de Fuerza - Tren Superior ACTUALIZADA\",\n  \"description\": \"Rutina actualizada con nuevos ejercicios\",\n  \"category\": \"FUERZA\",\n  \"exercises\": [\n    {\n      \"name\": \"Press de banca\",\n      \"sets\": 5,\n      \"reps\": 6,\n      \"weight\": 70,\n      \"muscle\": \"Pecho\"\n    },\n    {\n      \"name\": \"Dominadas\",\n      \"sets\": 4,\n      \"reps\": 8,\n      \"weight\": 10,\n      \"muscle\": \"Espalda\"\n    },\n    {\n      \"name\": \"Sentadillas\",\n      \"sets\": 4,\n      \"reps\": 12,\n      \"weight\": 80,\n      \"muscle\": \"Piernas\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -496,6 +732,20 @@
 				},
 				{
 					"name": "Eliminar rutina (exitosa)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina eliminada exitosamente\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -521,6 +771,24 @@
 				},
 				{
 					"name": "Contar rutinas del usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Contador de rutinas funciona\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    \r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response).to.have.property('count');\r",
+									"    pm.expect(response.count).to.be.a('number');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -544,6 +812,115 @@
 						"description": "Cuenta el número total de rutinas del usuario"
 					},
 					"response": []
+				},
+				{
+					"name": "Acceso sin token (401)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso sin token rechazado\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_base_url}}/routines",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines"
+							]
+						},
+						"description": "Intento de acceso a rutinas sin token de autorización"
+					},
+					"response": []
+				},
+				{
+					"name": "Acceso con token inválido (401)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Acceso con token inválido rechazado\", () => {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer token_invalido_123",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dev_base_url}}/routines",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines"
+							]
+						},
+						"description": "Intento de acceso con token JWT inválido"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener rutina inexistente (404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina inexistente retorna 404\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{dev_base_url}}/routines/507f1f77bcf86cd799439011",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								"507f1f77bcf86cd799439011"
+							]
+						},
+						"description": "Intento de obtener rutina con ID que no existe"
+					},
+					"response": []
 				}
 			],
 			"description": "CRUD completo de rutinas de ejercicios"
@@ -553,6 +930,25 @@
 			"item": [
 				{
 					"name": "Crear rutina 1 (PLUS)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina 1 creada exitosamente (PLUS)\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"if (pm.response.code === 201) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"routine1Id\", response.rutina._id);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -670,6 +1066,23 @@
 				},
 				{
 					"name": "Crear rutina 11 PLUS (error límite)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Límite PLUS alcanzado - creación rechazada\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"    \r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.message).to.include(\"límite\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -686,7 +1099,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Rutina 11 - Debería Fallar\",\n  \"description\": \"Esta rutina debería dar error por límite PLUS\",\n  \"category\": \"HIIT\",\n  \"exercises\": [\n    {\n      \"name\": \"Ejercicio que no se creará\",\n      \"sets\": 1,\n      \"reps\": 1,\n      \"weight\": 0,\n      \"category\": \"Test\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"Rutina 11 - Debería Fallar\",\n  \"description\": \"Esta rutina debería dar error por límite PLUS\",\n  \"category\": \"HIIT\",\n  \"exercises\": [\n    {\n      \"name\": \"Ejercicio que no se creará\",\n      \"sets\": 1,\n      \"reps\": 1,\n      \"weight\": 0,\n      \"muscle\": \"Test\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -708,16 +1121,19 @@
 					"response": []
 				},
 				{
-					"name": "Upgrade a PREMIUM",
+					"name": "Crear rutina 11 PREMIUM (exitosa)",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"if (pm.response.code === 200) {",
-									"    pm.environment.set(\"userProfile\", \"PREMIUM\");",
-									"    console.log(\"Usuario actualizado a PREMIUM - Sin límites\");",
-									"}"
+									"pm.test(\"PREMIUM permite rutinas ilimitadas\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    \r",
+									"    const response = pm.response.json();\r",
+									"    pm.expect(response.rutina).to.have.property('name');\r",
+									"    pm.expect(response.rutina.name).to.include('PREMIUM');\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -725,36 +1141,11 @@
 						}
 					],
 					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{dev_base_url}}/users/upgrade-premium",
-							"host": [
-								"{{dev_base_url}}"
-							],
-							"path": [
-								"users",
-								"upgrade-premium"
-							]
-						},
-						"description": "Actualizar usuario a PREMIUM para permitir rutinas ilimitadas"
-					},
-					"response": []
-				},
-				{
-					"name": "Crear rutina 11 PREMIUM (exitosa)",
-					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer {{token}}",
+								"value": "Bearer {{token_premium}}",
 								"type": "text"
 							},
 							{
@@ -765,7 +1156,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Rutina 11 - PREMIUM Success\",\n  \"description\": \"Esta rutina debería crearse exitosamente con PREMIUM\",\n  \"category\": \"HIIT\",\n  \"exercises\": [\n    {\n      \"name\": \"HIIT Avanzado\",\n      \"sets\": 5,\n      \"reps\": 20,\n      \"weight\": 0,\n      \"category\": \"HIIT\"\n    }\n  ]\n}",
+							"raw": "{\n  \"name\": \"Rutina 11 - PREMIUM Success\",\n  \"description\": \"Esta rutina debería crearse exitosamente con PREMIUM\",\n  \"category\": \"HIIT\",\n  \"exercises\": [\n    {\n      \"name\": \"HIIT Avanzado\",\n      \"sets\": 5,\n      \"reps\": 20,\n      \"weight\": 0,\n      \"muscle\": \"HIIT\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -788,6 +1179,225 @@
 				}
 			],
 			"description": "Tests específicos para validar límites de rutinas según perfil"
+		},
+		{
+			"name": "Tests de Validación y Bordes",
+			"item": [
+				{
+					"name": "Validación: Ejercicio sin sets",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ejercicio sin sets rechazado\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Rutina Inválida\",\n  \"description\": \"Rutina con ejercicio sin sets\",\n  \"category\": \"FUERZA\",\n  \"exercises\": [\n    {\n      \"name\": \"Press de banca\",\n      \"reps\": 8,\n      \"weight\": 60,\n      \"muscle\": \"Pecho\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_base_url}}/routines/",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								""
+							]
+						},
+						"description": "Test de validación: ejercicio sin campo sets requerido"
+					},
+					"response": []
+				},
+				{
+					"name": "Validación: Categoría inválida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Categoría inválida rechazada\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Rutina con categoría inválida\",\n  \"description\": \"Esta rutina tiene una categoría que no existe\",\n  \"category\": \"CATEGORIA_INVENTADA\",\n  \"exercises\": [\n    {\n      \"name\": \"Ejercicio cualquiera\",\n      \"sets\": 3,\n      \"reps\": 10,\n      \"weight\": 20,\n      \"muscle\": \"Brazo\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_base_url}}/routines/",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								""
+							]
+						},
+						"description": "Test de validación: categoría que no está en el enum permitido"
+					},
+					"response": []
+				},
+				{
+					"name": "Validación: Rutina sin ejercicios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Rutina sin ejercicios rechazada\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Rutina sin ejercicios\",\n  \"description\": \"Esta rutina no tiene ejercicios\",\n  \"category\": \"FUERZA\",\n  \"exercises\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_base_url}}/routines/",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								""
+							]
+						},
+						"description": "Test de validación: rutina con array de ejercicios vacío"
+					},
+					"response": []
+				},
+				{
+					"name": "Edge Case: Sets y Reps en 0",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Sets y reps en 0 manejados correctamente\", () => {\r",
+									"    // Puede ser 201 si se permite o 400 si se rechaza\r",
+									"    pm.expect([200, 201, 400]).to.include(pm.response.code);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Rutina Edge Case\",\n  \"description\": \"Test con valores límite\",\n  \"category\": \"CARDIO\",\n  \"exercises\": [\n    {\n      \"name\": \"Ejercicio edge case\",\n      \"sets\": 0,\n      \"reps\": 0,\n      \"weight\": 0,\n      \"muscle\": \"Core\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_base_url}}/routines/",
+							"host": [
+								"{{dev_base_url}}"
+							],
+							"path": [
+								"routines",
+								""
+							]
+						},
+						"description": "Caso límite: ejercicio con sets y reps en 0"
+					},
+					"response": []
+				}
+			],
+			"description": "Tests de casos límite, validaciones y manejo de errores específicos"
 		}
 	],
 	"event": [
@@ -816,32 +1426,60 @@
 		{
 			"key": "dev_base_url",
 			"value": "http://localhost:3000/api/v1",
-			"type": "string",
-			"description": "URL base para desarrollo local"
+			"type": "string"
 		},
 		{
 			"key": "prod_base_url",
 			"value": "https://tu-app.vercel.app/api/v1",
-			"type": "string",
-			"description": "URL base para producción en Vercel"
-		},
-		{
-			"key": "token",
-			"value": "",
-			"type": "string",
-			"description": "JWT Token del usuario autenticado"
-		},
-		{
-			"key": "routineId",
-			"value": "",
-			"type": "string",
-			"description": "ID de rutina para tests CRUD"
+			"type": "string"
 		},
 		{
 			"key": "userProfile",
 			"value": "PLUS",
-			"type": "string",
-			"description": "Perfil actual del usuario (PLUS/PREMIUM)"
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "userEmail",
+			"value": ""
+		},
+		{
+			"key": "user",
+			"value": ""
+		},
+		{
+			"key": "routineId",
+			"value": ""
+		},
+		{
+			"key": "token_premium",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "randomName",
+			"value": ""
+		},
+		{
+			"key": "randomEmail",
+			"value": ""
+		},
+		{
+			"key": "randomPassword",
+			"value": ""
+		},
+		{
+			"key": "routine1Id",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

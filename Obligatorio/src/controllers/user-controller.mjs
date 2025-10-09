@@ -7,14 +7,23 @@ export const createUser = async (req, res) => {
     try {
         const user = req.body;
         const { password, email } = user;
+        
+        // Verificar si el usuario ya existe antes de crear
+        const existingUser = await userRepository.getUserByEmail({ email });
+        if (existingUser) {
+            return res.status(409).json({ message: "Usuario ya existe" }); 
+        }
+        
+        // Hashear la contraseña DESPUÉS de que JOI la haya validado
         const hashPassword = await bcrypt.hash(password, 10);
         user.password = hashPassword;
-        console.log('user', user)
+        
         const userSaved = await userRepository.createUser(user);
         const token = jwt.sign({ id: userSaved._id, email: email, perfil: userSaved.perfil }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
         res.status(201).json({ usuario: userSaved, token });
     } catch (error) {
+        console.error("Error creating user:", error);
         res.status(400).json({ message: "No se pudo crear usuario", error: error.message });
     }
 }
@@ -24,12 +33,17 @@ export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await userRepository.getUserByEmail({ email });
+        
+        if (!user) {
+            return res.status(401).json({ message: "Error en login, verifique credenciales" });
+        }
+        
         const { password: passwordHash } = user;
         const validatePassword = await bcrypt.compare(password, passwordHash);
 
         if (validatePassword) {
             const token = jwt.sign({ id: user._id, email: email, perfil: user.perfil }, process.env.JWT_SECRET, { expiresIn: "1h" });
-            res.status(200).json({token: token});
+            res.status(200).json({ token: token });
         } else {
             res.status(401).json({ message: "Error en login, verifique credenciales" });
         }

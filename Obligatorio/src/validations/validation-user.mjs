@@ -10,13 +10,17 @@ export const validateAuth = Joi.object({
 });
 
 export const validateSingup = Joi.object({
-    name: Joi.string().min(3).max(40).required(),
+    name: Joi.string().min(2).max(40).required(),
     email: Joi.string().regex(/.+@.+\..+/).required(),
-    password: Joi.string().min(3).max(20).required()
+    password: Joi.string()
+        .min(8)
+        .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/)
+        .required()
+        
 });
 
 
 export const validateLogin = Joi.object({
     email: Joi.string().regex(/.+@.+\..+/).required(),
-    password: Joi.string().min(3).max(20).required()
+    password: Joi.string().min(8).required() // Para login, solo verificamos longitud mínima
 });
