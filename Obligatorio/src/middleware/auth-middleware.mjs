@@ -10,7 +10,6 @@ export const authMiddleware = (req, res, next) => {
 
     try {
         const authHeader = req.headers.authorization;
-        console.log('authHeader', authHeader);
         if (!authHeader) {
             res.status(401).json({ message: "No se pudo autenticar" });
         }
@@ -24,9 +23,6 @@ export const authMiddleware = (req, res, next) => {
         if (error) {
             res.status(401).json({ errors: error.details.map(d => d.message) })
         } else {
-            //se asigna el usuario al req user
-            console.log('value', value)
-
             req.user = value;
             //se sigue adelante con next
             next();

@@ -9,31 +9,44 @@ const userMongoRepository = {
             delete userCreado._doc.password;
             return userCreado;
         } catch (error) {
-            console.log('No se pudo crear el usuario en mongo', error);
-            throw error; // Lanza el error para que lo maneje el controller
+            throw error;
         }
     },
 
     //obtiene todos los usuario
     async getUsers() {
-        return User.find();
+        try {
+            return await User.find();
+        } catch (error) {
+            throw error;
+        }
     },
 
     //posiblemente para obtener datos de un usuario
     async getUserById(data) {
-        return User.findById(data).select("-password");
+        try {
+            return await User.findById(data).select("-password");
+        } catch (error) {
+            throw error;
+        }
     },
 
     //usuario con su password
     async getUserByEmail(data) {
-        console.log('data', data)
-        return User.findOne(data);
+        try {
+            return await User.findOne(data);
+        } catch (error) {
+            throw error;
+        }
     },
-
 
     //actualiza el usuario
     async updateUser(userId, updateData) {
-        return User.findByIdAndUpdate(userId, updateData, { new: true }).select("-password");
+        try {
+            return await User.findByIdAndUpdate(userId, updateData, { new: true }).select("-password");
+        } catch (error) {
+            throw error;
+        }
     },
 
 }

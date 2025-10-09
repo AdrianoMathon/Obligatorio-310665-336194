@@ -31,7 +31,6 @@ if (MONGO_BD_IN_USE === "atlas") {
 // Función asíncrona para conectar a la base de datos MongoDB
 export async function connectMongo() {
     try {
-        console.log('intentando conexion mongo', MONGO_URI, MONGO_DB, MONGO_BD_IN_USE)
         // Se intenta conectar usando Mongoose con opciones recomendadas
         await mongoose.connect(MONGO_URI, {
             serverSelectionTimeoutMS: 10000,

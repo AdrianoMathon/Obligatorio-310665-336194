@@ -58,7 +58,6 @@ export const getRoutineById = async (req, res, next) => {
 
 export const getRoutinesByUser = async (req, res, next) => {
     try {
-        console.log('req.user', req.user);
         const { id: userId } = req.user;
         const userRoutines = await routineRepository.getRoutineByUserId(userId);
         res.status(200).json({ rutinas: userRoutines });
@@ -119,9 +118,6 @@ export const deleteRoutine = async (req, res, next) => {
 
 export const countRoutinesByUser = async (req, res, next) => {
     try {
-        console.log('req.params:', req.params);
-        console.log('req.user:', req.user);
-        
         // Usar userId del parámetro si existe, sino usar el del token
         const userId = req.params.userId || req.user.id;
         
