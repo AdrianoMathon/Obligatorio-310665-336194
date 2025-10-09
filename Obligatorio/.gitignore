@@ -1,6 +1,14 @@
-/.env
-/node_modules
-/RESUMEN-EXITOSO.md
-/TESTING-GUIDE.md
+# Archivos de entorno (contienen claves privadas)
+.env
+.env.local
+.env.development
+.env.production
+
+# Node modules
+node_modules
+
+# Logs
+src/utils/logger
+src/utils/logger/logger.mjs
 
 
