@@ -8,6 +8,7 @@ import { store } from "./redux/stores.js";
 import { Provider } from "react-redux";
 import Rutas from "./routes/Routes.jsx";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./i18n.js";
 
 createRoot(document.getElementById("root")).render(
