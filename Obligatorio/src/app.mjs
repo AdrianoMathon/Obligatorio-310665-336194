@@ -5,12 +5,16 @@ import v1Publicas from "./routes/v1/public.mjs";
 import v1Users from "./routes/v1/user.mjs";
 import v1Routines from "./routes/v1/routine.mjs";
 import logRequest from "./utils/logger.mjs";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
 
 console.log('Conexion a mongo DB');
 connectMongo();
+
+// Configurar CORS
+app.use(cors());
 
 app.use(express.json());
 

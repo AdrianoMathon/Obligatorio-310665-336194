@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Card, Button } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
+import Menu from "./Menu";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -61,10 +62,12 @@ const Dashboard = () => {
   }
 
   return (
-    <Container className="mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-8">
-          <Card>
+    <>
+      <Menu />
+      <Container className="mt-5">
+        <div className="row justify-content-center">
+          <div className="col-md-8">
+            <Card>
             <Card.Header className="bg-primary text-white">
               <h2 className="mb-0">Dashboard de Gestión</h2>
             </Card.Header>
@@ -98,6 +101,7 @@ const Dashboard = () => {
         </div>
       </div>
     </Container>
+    </>
   );
 };
 
