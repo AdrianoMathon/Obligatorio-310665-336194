@@ -9,6 +9,7 @@ import { getLoginSchema } from "../schemas/loginSchemas";
 import { loginApi } from "../services/userServices";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment";
+import "../styles/auth.css";
 
 const initialValues = { email: "", password: "" };
 
@@ -58,7 +59,7 @@ const Login = () => {
       actions.resetForm();
 
       // Redirigir al dashboard después del login exitoso
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       console.log("error", error);
       // Mostrar el error en la interfaz
@@ -67,88 +68,86 @@ const Login = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <h1 className="text-center mb-4">{t("login.title")}</h1>
+    <div className="auth-container">
+      <div className="auth-card">
+        <h1 className="auth-title">{t("login.title")}</h1>
+        <p className="auth-subtitle">Ingresa tus credenciales para continuar</p>
 
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ values, errors, touched, handleSubmit, handleChange }) => {
+            // Deshabilitar botón si algún campo está vacío
+            const isButtonDisabled = !values.email || !values.password;
+
+            return (
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="form-group" controlId="formBasicEmail">
+                  <Form.Label className="form-label">{t("login.email")}</Form.Label>
+                  <Field
+                    name="email"
+                    type="email"
+                    className="form-control"
+                    placeholder={t("login.emailPlaceholder")}
+                    value={values.email}
+                    onChange={handleChange}
+                  />
+                  {errors.email && touched.email && (
+                    <p className="text-danger">{errors.email}</p>
+                  )}
+                </Form.Group>
+
+                <Form.Group className="form-group" controlId="formBasicPassword">
+                  <Form.Label className="form-label">{t("login.password")}</Form.Label>
+                  <Field
+                    name="password"
+                    type="password"
+                    className="form-control"
+                    placeholder={t("login.passwordPlaceholder")}
+                    value={values.password}
+                    onChange={handleChange}
+                  />
+                  {errors.password && touched.password && (
+                    <p className="text-danger">{errors.password}</p>
+                  )}
+                </Form.Group>
+
+                <button 
+                  type="submit" 
+                  className="auth-button"
+                  disabled={isButtonDisabled}
+                >
+                  {t("login.submit")}
+                </button>
+
+                <div className="auth-link-container">
+                  <p className="auth-link-text">
+                    {t("login.noAccount")}{" "}
+                    <a href="/register" className="auth-link">
+                      {t("login.registerLink")}
+                    </a>
+                  </p>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+
+        <div className="language-switcher">
+          <button 
+            className="language-button"
+            onClick={() => i18n.changeLanguage("es")}
           >
-            {({ values, errors, touched, handleSubmit, handleChange }) => {
-              // Deshabilitar botón si algún campo está vacío
-              const isButtonDisabled = !values.email || !values.password;
-
-              return (
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>{t("login.email")}</Form.Label>
-                    <Field
-                      name="email"
-                      type="email"
-                      className="form-control"
-                      placeholder={t("login.emailPlaceholder")}
-                      value={values.email}
-                      onChange={handleChange}
-                    />
-                    {errors.email && touched.email && (
-                      <p className="text-danger mt-1">{errors.email}</p>
-                    )}
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>{t("login.password")}</Form.Label>
-                    <Field
-                      name="password"
-                      type="password"
-                      className="form-control"
-                      placeholder={t("login.passwordPlaceholder")}
-                      value={values.password}
-                      onChange={handleChange}
-                    />
-                    {errors.password && touched.password && (
-                      <p className="text-danger mt-1">{errors.password}</p>
-                    )}
-                  </Form.Group>
-
-                  <Button 
-                    variant="primary" 
-                    type="submit" 
-                    className="w-100 mb-3"
-                    disabled={isButtonDisabled}
-                  >
-                    {t("login.submit")}
-                  </Button>
-
-                  <div className="text-center">
-                    <p>
-                      {t("login.noAccount")}{" "}
-                      <a href="/register" className="text-decoration-none">
-                        {t("login.registerLink")}
-                      </a>
-                    </p>
-                  </div>
-                </Form>
-              );
-            }}
-          </Formik>
-
-          <div className="text-center mt-3">
-            <button 
-              className="btn btn-sm btn-outline-secondary me-2"
-              onClick={() => i18n.changeLanguage("es")}
-            >
-              Español
-            </button>
-            <button 
-              className="btn btn-sm btn-outline-secondary"
-              onClick={() => i18n.changeLanguage("en")}
-            >
-              English
-            </button>
-          </div>
+            🇪🇸 Español
+          </button>
+          <button 
+            className="language-button"
+            onClick={() => i18n.changeLanguage("en")}
+          >
+            🇺🇸 English
+          </button>
         </div>
       </div>
     </div>
