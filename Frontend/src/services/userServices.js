@@ -1,67 +1,55 @@
 import axios from 'axios';
 import { urlBackend } from '../constants/constants';
 
-/**
- * Servicio para registrar un nuevo usuario
- * @param {string} name - Nombre del usuario
- * @param {string} email - Email del usuario
- * @param {string} password - Contraseña del usuario
- * @returns {Promise<{usuario: Object, token: string}>}
- */
-export const registerApi = async (name, email, password) => {
-    try {
-        const response = await axios.post(
-            `${urlBackend}/signup`,
-            { name, email, password },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-        const data = response.data;
-        console.log('data registerApi', data);
-        return data;
-    } catch (error) {
-        console.log('error en registerApi', error);
+const api = axios.create({
+    baseURL: urlBackend
+});
 
-        // Si el error viene del servidor (Axios lo envuelve en error.response)
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data.message || "Error en la respuesta del servidor");
-        }
-        // Si es un error de red u otro tipo
-        throw new Error(error.message ? error.message : "Hubo un error en la red");
+api.interceptors.request.use(config => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
+
+// Función para registrar un usuario
+export const registerApi = (name, email, password) => {
+    return api.post('/signup', { name, email, password })
+        .then(response => {
+            console.log("Usuario registrado:", response.data);
+            return response.data;
+        })
+        .catch(error => {
+            console.error("Error al registrar usuario:", error);
+            throw error.response?.data || error;
+        });
 };
 
-/**
- * Servicio para login de usuario
- * @param {string} email - Email del usuario
- * @param {string} password - Contraseña del usuario
- * @returns {Promise<{token: string}>}
- */
-export const loginApi = async (email, password) => {
-    try {
-        const response = await axios.post(
-            `${urlBackend}/login`,
-            { email, password },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-        const data = response.data;
-        console.log('data loginApi', data);
-        return data;
-    } catch (error) {
-        console.log('error en loginApi', error);
+// Función para login de usuario
+export const loginApi = (email, password) => {
+    return api.post('/login', { email, password })
+        .then(response => {
+            console.log("Login exitoso:", response.data);
+            return response.data;
+        })
+        .catch(error => {
+            console.error("Error al hacer login:", error);
+            throw error.response?.data || error;
+        });
+};
 
-        // Si el error viene del servidor (Axios lo envuelve en error.response)
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data.message || "Error en la respuesta del servidor");
-        }
-        // Si es un error de red u otro tipo
-        throw new Error(error.message ? error.message : "Hubo un error en la red");
-    }
+// Función para upgrade a PREMIUM
+export const upgradeToPremiumApi = () => {
+    return api.patch('/users/upgrade-premium')
+        .then(response => {
+            console.log("Upgrade exitoso:", response.data);
+            return response.data;
+        })
+        .catch(error => {
+            console.error("Error al hacer upgrade:", error);
+            throw error.response?.data || error;
+        });
 };

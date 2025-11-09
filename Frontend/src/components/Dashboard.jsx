@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { jwtDecode } from "jwt-decode";
 import Menu from "./Menu";
+import Contenido from "./Contenido";
+import InformeUso from "./InformeUso";
+import CambioPlan from "./CambioPlan";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -64,43 +67,17 @@ const Dashboard = () => {
   return (
     <>
       <Menu />
-      <Container className="mt-5">
-        <div className="row justify-content-center">
-          <div className="col-md-8">
-            <Card>
-            <Card.Header className="bg-primary text-white">
-              <h2 className="mb-0">Dashboard de Gestión</h2>
-            </Card.Header>
-            <Card.Body>
-              <h4 className="mb-4">¡Bienvenido al Dashboard!</h4>
-              
-              <div className="mb-4">
-                <h5>Información del Usuario:</h5>
-                <ul className="list-unstyled">
-                  <li><strong>Email:</strong> {userData.email}</li>
-                  <li><strong>ID:</strong> {userData.id}</li>
-                  <li>
-                    <strong>Perfil:</strong>{" "}
-                    {userData.perfil && userData.perfil.length > 0
-                      ? userData.perfil.join(", ")
-                      : "BASIC"}
-                  </li>
-                </ul>
-              </div>
-
-              <div className="alert alert-info">
-                <strong>Nota:</strong> Esta es tu área de gestión. Aquí podrás 
-                gestionar tus rutinas y configuraciones.
-              </div>
-
-              <Button variant="danger" onClick={handleLogout}>
-                Cerrar Sesión
-              </Button>
-            </Card.Body>
-          </Card>
-        </div>
-      </div>
-    </Container>
+      <Container className="mt-4">
+        <Row>
+          <Col lg={8}>
+            <Contenido />
+          </Col>
+          <Col lg={4}>
+            <InformeUso />
+            <CambioPlan />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

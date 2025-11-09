@@ -71,8 +71,21 @@ export const upgradeUserToPremium = async (req, res, next) => {
         }
         
         const updatedUser = await userRepository.updateUser(userId, { perfil: ["PREMIUM"] });
+        
+        // Generar nuevo token con el perfil actualizado
+        const newToken = jwt.sign(
+            { 
+                id: updatedUser._id, 
+                email: updatedUser.email, 
+                perfil: updatedUser.perfil 
+            }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: "1h" }
+        );
+        
         res.status(200).json({ 
             usuario: updatedUser, 
+            token: newToken,
             message: "Cambio exitoso a PREMIUM. Ahora tienes rutinas ilimitadas!" 
         });
     } catch (error) {
