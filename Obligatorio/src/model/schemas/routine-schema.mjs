@@ -10,6 +10,11 @@ const routineSchema = new mongoose.Schema({
         type: String, 
         trim: true 
     },
+    imgUrl: {
+        type: String,
+        trim: true,
+        default: null
+    },
     exercises: [{
         name: String,
         sets: Number,

@@ -8,6 +8,7 @@ import { addRoutine } from "../redux/features/routineSlice";
 import { routineSchema } from "../schemas/routineSchemas";
 import RutinaInfoForm from "./RutinaInfoForm";
 import EjercicioForm from "./EjercicioForm";
+import SubirImagen from "./SubirImagen";
 
 const Agregar = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const Agregar = () => {
     name: "",
     description: "",
     category: "",
+    imgUrl: "",  
     exercises: [
       {
         name: "",
@@ -77,6 +79,14 @@ const Agregar = () => {
                 errors={errors} 
                 touched={touched} 
               />
+
+              {/* Subir imagen de la rutina */}
+              <div className="mb-3">
+                <label className="form-label">Imagen de la rutina (opcional)</label>
+                <SubirImagen
+                  handleImgURL={(auxImgUrl) => setFieldValue('imgUrl', auxImgUrl)}
+                />
+              </div>
 
               <hr />
               <h5>Ejercicios</h5>

@@ -8,6 +8,9 @@ export const routineSchema = Yup.object().shape({
   description: Yup.string()
     .max(200, "Máximo 200 caracteres"),
   category: Yup.string().required("La categoría es obligatoria"),
+  imgUrl: Yup.string()
+    .url("Debe ser una URL válida")
+    .nullable(),
   exercises: Yup.array().of(
     Yup.object().shape({
       name: Yup.string().required("Nombre del ejercicio requerido"),
