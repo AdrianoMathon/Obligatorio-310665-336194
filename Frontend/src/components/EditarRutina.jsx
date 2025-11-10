@@ -5,6 +5,35 @@ import moment from "moment";
 const EditarRutina = ({ routine, editForm, setEditForm, onSave, onCancel }) => {
   return (
     <>
+      <td style={{ width: "80px" }}>
+        {routine.imgUrl ? (
+          <img 
+            src={routine.imgUrl} 
+            alt={routine.name}
+            style={{ 
+              width: "60px", 
+              height: "60px", 
+              objectFit: "cover", 
+              borderRadius: "8px" 
+            }}
+          />
+        ) : (
+          <div 
+            style={{ 
+              width: "60px", 
+              height: "60px", 
+              backgroundColor: "#f8f9fa", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              borderRadius: "8px",
+              border: "1px dashed #dee2e6"
+            }}
+          >
+            📷
+          </div>
+        )}
+      </td>
       <td>
         <Form.Control
           type="text"

@@ -16,6 +16,35 @@ const FilaRutina = ({ routine, onEdit, onDelete }) => {
 
   return (
     <>
+      <td style={{ width: "80px" }}>
+        {routine.imgUrl ? (
+          <img 
+            src={routine.imgUrl} 
+            alt={routine.name}
+            style={{ 
+              width: "60px", 
+              height: "60px", 
+              objectFit: "cover", 
+              borderRadius: "8px" 
+            }}
+          />
+        ) : (
+          <div 
+            style={{ 
+              width: "60px", 
+              height: "60px", 
+              backgroundColor: "#f8f9fa", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              borderRadius: "8px",
+              border: "1px dashed #dee2e6"
+            }}
+          >
+            📷
+          </div>
+        )}
+      </td>
       <td>{routine.name}</td>
       <td>{routine.description || "-"}</td>
       <td>{getCategoryBadge(routine.category)}</td>

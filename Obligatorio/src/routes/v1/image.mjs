@@ -4,10 +4,10 @@ import { authMiddleware } from '../../middleware/auth-middleware.mjs';
 
 const router = express.Router();
 
-// Subir imagen (requiere autenticación)
+// Subir imagen 
 router.post('/', authMiddleware, uploadImageBase64);
 
-// Eliminar imagen (requiere autenticación)
+// Eliminar imagen
 router.delete('/:id', authMiddleware, removeImage);
 
 export default router;

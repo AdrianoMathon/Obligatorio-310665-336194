@@ -93,6 +93,7 @@ const MisRutinas = ({ routines }) => {
       <Table striped bordered hover responsive>
       <thead>
         <tr>
+          <th>Imagen</th>
           <th>Nombre</th>
           <th>Descripción</th>
           <th>Categoría</th>

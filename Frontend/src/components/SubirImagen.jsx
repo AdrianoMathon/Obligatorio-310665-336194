@@ -1,17 +1,13 @@
 import React, { useId, useState, useImperativeHandle, forwardRef } from "react";
-import { uploadImage, deleteImage } from "../services/imageService";
 
 const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
   const [preview, setPreview] = useState(null);
-  const [imageData, setImageData] = useState(null);
-  const [loading, setLoading] = useState(false);
   const botonId = useId();
 
   // Exponer método al padre
   useImperativeHandle(ref, () => ({
     reset() {
       setPreview(null);
-      setImageData(null);
     },
   }));
 
@@ -46,36 +42,17 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
     const base64 = await fileToBase64(file);
     console.log("base64", base64);
     setPreview(base64);
+    handleImgURL(base64);
   };
 
-  const handleUpload = async () => {
-    if (!preview) return;
-    setLoading(true);
-    try {
-      const result = await uploadImage(preview);
-      setImageData(result);
-      alert("Imagen subida con éxito");
-      handleImgURL(result.secure_url);
-    } catch (err) {
-      alert("Error al subir la imagen: " + err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (!imageData?.public_id) return;
-    setLoading(true);
-    try {
-      await deleteImage(imageData.public_id);
-      alert("🗑️ Imagen eliminada con éxito");
-      setPreview(null);
-      setImageData(null);
-      handleImgURL(""); // Limpiar URL en el formulario padre
-    } catch (err) {
-      alert("Error al eliminar: " + err.message);
-    } finally {
-      setLoading(false);
+  const handleClear = () => {
+    setPreview(null);
+    handleImgURL(""); // Limpiar en Formik
+    
+    // Limpiar el input file
+    const input = document.getElementById(botonId);
+    if (input) {
+      input.value = "";
     }
   };
 
@@ -89,7 +66,6 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
         accept="image/*"
         hidden={true}
         onChange={handleFileChange}
-        disabled={loading}
       />
       <label
         htmlFor={botonId}
@@ -116,51 +92,25 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
         </div>
       )}
 
-      <div style={{ marginTop: 20 }}>
-        {!imageData ? (
-          <button 
-            onClick={handleUpload} 
-            disabled={loading || !preview}
-            style={{
-              backgroundColor: preview ? "#28a745" : "#6c757d",
-              color: "#fff",
-              padding: "8px 16px",
-              border: "none",
-              borderRadius: "5px",
-              cursor: preview ? "pointer" : "not-allowed"
-            }}
-          >
-            {loading ? "Subiendo..." : "Subir Imagen"}
-          </button>
-        ) : (
-          <button 
-            onClick={handleDelete} 
-            disabled={loading}
+      {preview && (
+        <div style={{ marginTop: 15 }}>
+          <p style={{ color: "#28a745", fontWeight: "bold" }}>
+            ✅ Imagen seleccionada - se subirá al crear la rutina
+          </p>
+          <button
+            onClick={handleClear}
             style={{
               backgroundColor: "#dc3545",
               color: "#fff",
-              padding: "8px 16px",
+              padding: "6px 12px",
               border: "none",
               borderRadius: "5px",
-              cursor: "pointer"
+              cursor: "pointer",
+              marginTop: "10px"
             }}
           >
-            {loading ? "Eliminando..." : "Eliminar Imagen"}
+            🗑️ Eliminar imagen
           </button>
-        )}
-      </div>
-
-      {imageData && (
-        <div style={{ marginTop: 15 }}>
-          <p>
-            🌐 <strong>URL:</strong>{" "}
-            <a href={imageData.secure_url} target="_blank" rel="noreferrer">
-              Ver en Cloudinary
-            </a>
-          </p>
-          <p>
-            🆔 <strong>Public ID:</strong> {imageData.public_id}
-          </p>
         </div>
       )}
     </div>

@@ -46,9 +46,32 @@ const Agregar = () => {
     }
   };
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
-      const newRoutine = await createRoutineApi(values);
+      setSubmitting(true);
+      
+      // Si hay imagen en base64, subirla primero
+      let finalValues = { ...values };
+      
+      if (values.imgUrl && values.imgUrl.startsWith('data:')) {
+        try {
+          toast.info("Subiendo imagen...");
+          
+          // Importar el servicio de imágenes
+          const { uploadImage } = await import('../services/imageService');
+          const result = await uploadImage(values.imgUrl);
+          finalValues.imgUrl = result.secure_url;
+          
+          toast.success("Imagen subida correctamente");
+        } catch (imageError) {
+          console.log("Error subiendo imagen:", imageError);
+          toast.warn("Error al subir la imagen. Se creará la rutina sin imagen.");
+          // Continuar sin imagen
+          finalValues.imgUrl = "";
+        }
+      }
+      
+      const newRoutine = await createRoutineApi(finalValues);
       dispatch(addRoutine(newRoutine));
       toast.success("¡Rutina creada exitosamente!");
       resetForm();
@@ -57,6 +80,8 @@ const Agregar = () => {
       // El backend devuelve { message: "..." }
       const errorMessage = error?.message || "Error al crear rutina";
       toast.error(errorMessage);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -71,7 +96,7 @@ const Agregar = () => {
           validationSchema={routineSchema}
           onSubmit={handleSubmit}
         >
-          {({ values, errors, touched, handleSubmit }) => (
+          {({ values, errors, touched, handleSubmit, setFieldValue, isSubmitting }) => (
             <Form onSubmit={handleSubmit}>
               {/* Información básica de la rutina */}
               <RutinaInfoForm 
@@ -122,8 +147,13 @@ const Agregar = () => {
 
               <hr />
 
-              <Button variant="success" type="submit" className="w-100">
-                ✅ Crear Rutina
+              <Button 
+                variant="success" 
+                type="submit" 
+                className="w-100"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "🔄 Creando rutina..." : "✅ Crear Rutina"}
               </Button>
             </Form>
           )}
