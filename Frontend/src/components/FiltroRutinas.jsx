@@ -13,6 +13,7 @@ const FiltroRutinas = ({ filterPeriod, setFilterPeriod }) => {
         <option value="all">Todo el histórico</option>
         <option value="week">Última semana</option>
         <option value="month">Último mes</option>
+        <option value="day">Último día</option>
       </Form.Select>
     </div>
   );

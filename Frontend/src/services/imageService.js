@@ -10,6 +10,7 @@ const getAuthToken = () => {
 // Subir imagen (Base64)
 export async function uploadImage(base64) {
     const token = getAuthToken();
+    
     const res = await fetch(URL_IMAGES, {
         method: "POST",
         headers: { 
@@ -23,7 +24,7 @@ export async function uploadImage(base64) {
         let errorMessage = "Error al subir la imagen";
         try {
             const errorData = await res.json();
-            errorMessage = errorData.message || errorMessage;
+            errorMessage = errorData.message || errorData.error || errorMessage;
         } catch (e) {
             // Si no puede parsear el JSON, usar mensaje por defecto
         }
@@ -40,7 +41,8 @@ export async function uploadImage(base64) {
         throw new Error(errorMessage);
     }
     
-    return await res.json();
+    const result = await res.json();
+    return result;
 }
 
 // Eliminar imagen por public_id

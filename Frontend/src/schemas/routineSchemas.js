@@ -9,7 +9,11 @@ export const routineSchema = Yup.object().shape({
     .max(200, "Máximo 200 caracteres"),
   category: Yup.string().required("La categoría es obligatoria"),
   imgUrl: Yup.string()
-    .url("Debe ser una URL válida")
+    .test('is-url-or-base64', 'Debe ser una URL válida o imagen base64', function(value) {
+      if (!value) return true; // Permitir vacío
+      // Permitir URLs válidas o strings base64
+      return /^https?:\/\/.+/.test(value) || /^data:image\/.+;base64,/.test(value);
+    })
     .nullable(),
   exercises: Yup.array().of(
     Yup.object().shape({

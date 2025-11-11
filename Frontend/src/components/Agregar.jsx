@@ -9,6 +9,7 @@ import { routineSchema } from "../schemas/routineSchemas";
 import RutinaInfoForm from "./RutinaInfoForm";
 import EjercicioForm from "./EjercicioForm";
 import SubirImagen from "./SubirImagen";
+import { uploadImage } from "../services/imageService";
 
 const Agregar = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,6 @@ const Agregar = () => {
       const cats = await getCategoriesApi();
       setCategories(cats);
     } catch (error) {
-      console.log("error", error);
       // El backend devuelve { message: "..." }
       const errorMessage = error?.message || "Error al cargar categorías";
       toast.error(errorMessage);
@@ -57,26 +57,23 @@ const Agregar = () => {
         try {
           toast.info("Subiendo imagen...");
           
-          // Importar el servicio de imágenes
-          const { uploadImage } = await import('../services/imageService');
           const result = await uploadImage(values.imgUrl);
-          finalValues.imgUrl = result.secure_url;
-          
+          finalValues.imgUrl = result.secure_url;         
           toast.success("Imagen subida correctamente");
         } catch (imageError) {
-          console.log("Error subiendo imagen:", imageError);
-          toast.warn("Error al subir la imagen. Se creará la rutina sin imagen.");
-          // Continuar sin imagen
-          finalValues.imgUrl = "";
+          toast.error(`Error al subir la imagen: ${imageError.message}`);
+          setSubmitting(false);
+          return; // Detener el proceso si falla la imagen
         }
       }
       
       const newRoutine = await createRoutineApi(finalValues);
+      
       dispatch(addRoutine(newRoutine));
       toast.success("¡Rutina creada exitosamente!");
       resetForm();
     } catch (error) {
-      console.log("error", error);
+      console.error("Error al crear rutina:", error);
       // El backend devuelve { message: "..." }
       const errorMessage = error?.message || "Error al crear rutina";
       toast.error(errorMessage);

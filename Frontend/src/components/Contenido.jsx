@@ -52,6 +52,10 @@ const Contenido = () => {
       filtered = routines.filter((routine) =>
         moment(routine.createdAt).isAfter(now.clone().subtract(30, "days"))
       );
+    } else if (filterPeriod === "day") {
+      filtered = routines.filter((routine) =>
+        moment(routine.createdAt).isAfter(now.clone().subtract(1, "days"))
+      );
     }
 
     setFilteredRoutines(filtered);

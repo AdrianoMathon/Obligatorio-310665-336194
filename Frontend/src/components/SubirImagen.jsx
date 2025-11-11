@@ -39,10 +39,14 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
       return;
     }
 
-    const base64 = await fileToBase64(file);
-    console.log("base64", base64);
-    setPreview(base64);
-    handleImgURL(base64);
+    try {
+      const base64 = await fileToBase64(file);
+      setPreview(base64);
+      handleImgURL(base64);
+    } catch (error) {
+      console.error("Error al convertir imagen a base64:", error);
+      alert('Error al procesar la imagen');
+    }
   };
 
   const handleClear = () => {
