@@ -2,15 +2,6 @@ import React from "react";
 import { Form, Button, Card, Row, Col } from "react-bootstrap";
 import { Field } from "formik";
 
-/**
- * Componente para renderizar un formulario de ejercicio individual
- * @param {Object} exercise - Objeto con datos del ejercicio
- * @param {number} index - Índice del ejercicio en el array
- * @param {Object} errors - Objeto de errores de Formik
- * @param {Object} touched - Objeto de campos tocados de Formik
- * @param {Function} onRemove - Función callback para eliminar ejercicio
- * @param {boolean} canRemove - Indica si se puede eliminar este ejercicio
- */
 const EjercicioForm = ({ exercise, index, errors, touched, onRemove, canRemove }) => {
   return (
     <Card className="mb-3 bg-light">

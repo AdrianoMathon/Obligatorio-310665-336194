@@ -2,12 +2,6 @@ import React from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { Field } from "formik";
 
-/**
- * Componente para la información básica de una rutina
- * @param {Array} categories - Array de categorías disponibles
- * @param {Object} errors - Objeto de errores de Formik
- * @param {Object} touched - Objeto de campos tocados de Formik
- */
 const RutinaInfoForm = ({ categories, errors, touched }) => {
   return (
     <>
