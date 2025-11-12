@@ -33,7 +33,6 @@ const InformeUso = () => {
     }
   };
 
-  // Calcular distribución de rutinas por categoría
   const calcularDistribucionPorCategoria = () => {
     const distribucion = {};
     
@@ -60,17 +59,32 @@ const InformeUso = () => {
   };
 
   return (
-    <Card className="mb-4">
-      <Card.Header className="bg-info text-white">
+    <Card className="mb-4 mt-4">
+      <Card.Header 
+        className="text-white"
+        style={{
+          background: 'var(--secondary-gradient)',
+        }}
+      >
         <h4 className="mb-0">📊 Informe de Uso</h4>
       </Card.Header>
       <Card.Body>
         <div className="mb-3">
           <h5>
             Perfil actual:{" "}
-            <Badge bg={perfil === "PREMIUM" ? "success" : "primary"}>
+            <span 
+              style={{
+                backgroundColor: perfil === "PREMIUM" ? "var(--primary-color)" : "var(--quaternary-color)",
+                color: "white",
+                padding: "0.35em 0.65em",
+                borderRadius: "0.375rem",
+                fontSize: "0.875em",
+                fontWeight: "700",
+                display: "inline-block"
+              }}
+            >
               {perfil}
-            </Badge>
+            </span>
           </h5>
         </div>
 
@@ -101,8 +115,8 @@ const InformeUso = () => {
                 <Grafica
                   etiquetas={obtenerDatosGrafica().categorias}
                   datos={obtenerDatosGrafica().cantidades}
-                  nombreGrafica="Distribución de Rutinas por Categoría"
-                  nombreDatos="Cantidad de Rutinas"
+                  nombreGrafica="Distribución de rutinas por categoría"
+                  nombreDatos="Cantidad de rutinas"
                 />
               </div>
             )}
@@ -112,7 +126,7 @@ const InformeUso = () => {
             <div className="mb-3">
               <h6>Rutinas creadas: {routines.length}</h6>
               <div className="alert alert-success">
-                ✨ Como usuario PREMIUM tienes rutinas ilimitadas
+                Como usuario PREMIUM tienes rutinas ilimitadas
               </div>
             </div>
 
@@ -122,8 +136,8 @@ const InformeUso = () => {
                 <Grafica
                   etiquetas={obtenerDatosGrafica().categorias}
                   datos={obtenerDatosGrafica().cantidades}
-                  nombreGrafica="Distribución de Rutinas por Categoría"
-                  nombreDatos="Cantidad de Rutinas"
+                  nombreGrafica="Distribución de rutinas por categoría"
+                  nombreDatos="Cantidad de rutinas"
                 />
               </div>
             )}

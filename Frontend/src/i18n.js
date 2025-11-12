@@ -11,7 +11,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
         welcome: 'Bienvenido',
         login: {
           title: 'Iniciar Sesión',
-          email: 'Correo Electrónico',
+          email: 'Correo electrónico',
           emailPlaceholder: 'Ingrese su correo',
           password: 'Contraseña',
           passwordPlaceholder: 'Ingrese su contraseña',
@@ -23,7 +23,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
           title: 'Registro de Usuario',
           name: 'Nombre',
           namePlaceholder: 'Ingrese su nombre',
-          email: 'Correo Electrónico',
+          email: 'Correo electrónico',
           emailPlaceholder: 'Ingrese su correo',
           password: 'Contraseña',
           passwordPlaceholder: 'Ingrese su contraseña',

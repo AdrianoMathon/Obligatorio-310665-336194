@@ -22,19 +22,19 @@ const CambioPlan = () => {
       setLoading(true);
       setShowModal(false);
       const response = await upgradeToPremiumApi();
-      
+
       // Guardar el nuevo token que viene del backend con el perfil actualizado
       if (response.token) {
         localStorage.setItem("token", response.token);
-        
+
         // Decodificar el nuevo token para actualizar el estado local
         const decoded = jwtDecode(response.token);
-        
+
         // Actualizar el perfil usando el custom hook
         actualizarPerfil();
-        
+
         toast.success(response.message || "¡Upgrade a PREMIUM exitoso!");
-        
+
         // Recargar la página para actualizar todos los componentes con el nuevo token
         setTimeout(() => {
           window.location.reload();
@@ -66,51 +66,86 @@ const CambioPlan = () => {
       />
 
       <Card className="mb-4">
-      <Card.Header className="bg-warning text-dark">
-        <h4 className="mb-0">⭐ Cambio de Plan</h4>
-      </Card.Header>
-      <Card.Body>
-        {perfil === "PLUS" ? (
-          <>
-            <Alert variant="info">
-              <h5>🎯 Plan Actual: PLUS</h5>
-              <ul>
-                <li>Hasta 10 rutinas</li>
-                <li>Todas las funcionalidades básicas</li>
-              </ul>
-            </Alert>
+        <Card.Header
+          className="text-white"
+          style={{
+            background: 'var(--terciary-gradient)',
+          }}>
+          <h4 className="mb-0">⭐ Cambio de Plan</h4>
 
-            <Alert variant="success">
-              <h5>✨ Beneficios del Plan PREMIUM</h5>
-              <ul>
-                <li>🚀 <strong>Rutinas ilimitadas</strong></li>
-                <li>📊 Todas las funcionalidades</li>
-                <li>🎁 Sin restricciones</li>
-              </ul>
-            </Alert>
-
-            <div className="d-grid gap-2">
-              <Button
-                variant="success"
-                size="lg"
-                onClick={handleUpgradeToPremium}
-                disabled={loading}
+        </Card.Header>
+        <Card.Body>
+          {perfil === "PLUS" ? (
+            <>
+              <Card
+                style={{
+                  backgroundColor: '#e08e0017',
+                  marginBottom: '10px',
+                }}
               >
-                {loading ? "Procesando..." : "🌟 Cambiar a PREMIUM"}
-              </Button>
-            </div>
-          </>
-        ) : (
-          <Alert variant="success">
-            <h5>✅ Ya eres usuario PREMIUM</h5>
-            <p className="mb-0">
-              Disfrutas de todos los beneficios del plan más completo con
-              rutinas ilimitadas.
-            </p>
-          </Alert>
-        )}
-      </Card.Body>
-    </Card>
+                <Card.Body>
+                  <h5 style={{ marginBottom: '10px' }}>Plan actual: PLUS</h5>
+                  <ul style={{ marginBottom: '0' }}>
+                    <li>Hasta 10 rutinas</li>
+                    <li>Todas las funcionalidades básicas</li>
+                  </ul>
+                </Card.Body>
+              </Card>
+
+              <Card 
+                style={{
+                  backgroundColor: '#e08e0017',
+                  border: '2px solid var(--terciary-color)',
+                  borderLeft: '6px solid var(--terciary-color)',
+                  marginBottom: '15px'
+                }}
+              >
+                <Card.Body>
+                  <h5 style={{ marginBottom: '10px' }}>Beneficios del Plan PREMIUM</h5>
+                  <ul style={{ marginBottom: '0' }}>
+                    <li><strong>Rutinas ilimitadas</strong></li>
+                    <li>Todas las funcionalidades</li>
+                    <li>Sin restricciones</li>
+                  </ul>
+                </Card.Body>
+              </Card>
+
+              <div className="d-grid gap-2">
+                <Button        
+                  size="lg"
+                  onClick={handleUpgradeToPremium}
+                  disabled={loading}
+                  style={{
+                    fontFamily: 'var(--font-headings)',
+                    backgroundColor: 'var(--primary-gradient)',
+                    fontWeight: '400',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    
+                  }}
+                >
+                  {loading ? "Procesando..." : "🌟 Cambiar a PREMIUM"}
+                </Button>
+              </div>
+            </>
+          ) : (
+            <Card variant="success"
+            style={{
+                  backgroundColor: '#f7ff8717',
+                  border: '2px solid var(--primary-color)',
+                  borderLeft: '6px solid var(--primary-color)',
+                  marginBottom: '15px',
+                  padding: '15px'
+                }}>
+              <h5>✅ Ya eres usuario PREMIUM</h5>
+              <p className="mb-0">
+                Disfrutas de todos los beneficios del plan más completo con
+                rutinas ilimitadas.
+              </p>
+            </Card>
+          )}
+        </Card.Body>
+      </Card>
     </>
   );
 };

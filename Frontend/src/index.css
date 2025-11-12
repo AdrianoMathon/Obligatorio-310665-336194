@@ -1,11 +1,28 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Fuentes */
+  --font-primary: 'Nunito Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-headings: 'Passion One', cursive;
+  
+  font-family: var(--font-primary);
   line-height: 1.5;
   font-weight: 400;
 
+  /* Variables de color para consistencia */
+  --primary-gradient: linear-gradient(135deg, #aebc2f 0%, #ddeb60 130%);
+  --secondary-gradient: linear-gradient(135deg, #1b877e -30%, #45baac 100%);
+  --terciary-gradient: linear-gradient(135deg, #e08e00 0%, #fdb944 100%);
+  --primary-color: #aebc2f;
+  --secondary-color: #1b877e;
+  --terciary-color: #e08e00;
+  --quaternary-color: #00ad99;
+  --grey-color: #899c90;
+  --text-color: #000000;
+  --bg-light: #f8f9fa;
+  --border-radius: 8px;
+  --transition-base: 0.3s ease;
+
   color-scheme: light dark;
-  color: #213547;
-  background-color: #ffffff;
+  color: var(--text-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -41,39 +58,193 @@ body {
   overflow-x: hidden;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Tipografía personalizada */
+h1, h2, h3, h4, 
+.navbar-brand,
+.card-title {
+  font-family: var(--font-headings);
+  font-weight: 700; /* Passion One peso medio */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.auth-title {
+  font-family: var(--font-headings);
+  font-weight: 700; /* Passion One peso balanceado */
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
-button:hover {
-  border-color: #646cff;
+
+/* Jerarquía tipográfica con Passion One + Nunito Sans */
+h1 { 
+  font-weight: 700; 
+  font-size: 2.8rem; 
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+h2 { 
+  font-weight: 700; 
+  font-size: 2.2rem; 
+  letter-spacing: 0.8px;
 }
+h3 { 
+  font-weight: 700; 
+  font-size: 1.9rem; 
+  letter-spacing: 0.6px;
+}
+h4 { 
+  font-weight: 400; 
+  font-size: 1.6rem; 
+  letter-spacing: 0.4px;
+}
+
+/* H5 específico con Nunito Sans y peso fuerte */
+h5 { 
+  font-family: var(--font-primary) !important;
+  font-weight: 800 !important; 
+  font-size: 1.4rem; 
+  letter-spacing: 0.2px;
+  text-transform: none !important;
+}
+
+h6 { 
+  font-weight: 400; 
+  font-size: 1.2rem;
+}
+
+/* Nunito Sans para el cuerpo del texto */
+body { 
+  font-family: var(--font-primary);
+  font-weight: 400; 
+}
+
+.text-light { font-weight: 300; }
+.text-semibold { font-weight: 600; }
+.text-bold { font-weight: 700; }
+
+/* Estilo especial para títulos importantes */
+.display-title {
+  font-family: var(--font-headings);
+  font-weight: 700;
+  font-size: 3.5rem;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Clases auxiliares para diferentes intensidades */
+.title-bold { font-weight: 700; }
+.title-medium { font-weight: 700; }
+.title-regular { font-weight: 400; }
+
+/* Botón personalizado PREMIUM */
+.btn-custom-premium {
+  background: var(--terciary-color) !important;
+  background-color: var(--terciary-color) !important;
+  border: 1px solid var(--terciary-color) !important;
+  border-color: var(--terciary-color) !important;
+  color: white !important;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.btn-custom-premium:hover:not(:disabled) {
+  background: #d47e00 !important;
+  background-color: #d47e00 !important;
+  border: 1px solid #d47e00 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(224, 142, 0, 0.4);
+  outline: none;
+}
+
+.btn-custom-premium:focus,
+.btn-custom-premium:active,
+.btn-custom-premium:focus-visible {
+  background: var(--terciary-color) !important;
+  background-color: var(--terciary-color) !important;
+  border: 1px solid var(--terciary-color) !important;
+  color: white !important;
+  box-shadow: 0 0 0 0.2rem rgba(224, 142, 0, 0.25);
+  outline: none;
+}
+
+.btn-custom-premium:disabled {
+  background: var(--terciary-color) !important;
+  background-color: var(--terciary-color) !important;
+  border: 1px solid var(--terciary-color) !important;
+  color: white !important;
+  opacity: 0.65;
+  transform: none;
+  outline: none;
+}
+
+/* Botón Crear Rutina */
+.btn-create-routine {
+  background: var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
+  border: none !important;
+  color: white !important;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.btn-create-routine:hover:not(:disabled) {
+  background: #9dad28 !important;
+  background-color: #9dad28 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(174, 188, 47, 0.4);
+  outline: none;
+}
+
+.btn-create-routine:focus,
+.btn-create-routine:active,
+.btn-create-routine:focus-visible {
+  background: var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(174, 188, 47, 0.25);
+}
+
+.btn-create-routine:disabled {
+  background: var(--primary-color) !important;
+  background-color: var(--primary-color) !important;
+  opacity: 0.65;
+  transform: none;
+}
+
+.btn-secundario{
+
+  background-color: var(--grey-color) !important;
+  border: none !important;
+  color: white !important;
+  padding: 5px 10px !important;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.btn-secundario:hover:not(:disabled) {
+ 
+  background-color: #7f8c83 !important;
+  transform: translate(0.5px);
+  outline: none;
+}
+
+.fondo-no-rutinas{
+  background-color: #fffbea;
+  padding: 20px;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  text-align: center;
+  color: var(--grey-color);
+}
+/* Estilos de botones manejados por Bootstrap y componentes específicos */
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }

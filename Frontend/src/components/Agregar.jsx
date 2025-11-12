@@ -19,7 +19,7 @@ const Agregar = () => {
     name: "",
     description: "",
     category: "",
-    imgUrl: "",  
+    imgUrl: "",
     exercises: [
       {
         name: "",
@@ -49,16 +49,16 @@ const Agregar = () => {
   const handleSubmit = async (values, { resetForm, setSubmitting }) => {
     try {
       setSubmitting(true);
-      
+
       // Si hay imagen en base64, subirla primero
       let finalValues = { ...values };
-      
+
       if (values.imgUrl && values.imgUrl.startsWith('data:')) {
         try {
           toast.info("Subiendo imagen...");
-          
+
           const result = await uploadImage(values.imgUrl);
-          finalValues.imgUrl = result.secure_url;         
+          finalValues.imgUrl = result.secure_url;
           toast.success("Imagen subida correctamente");
         } catch (imageError) {
           toast.error(`Error al subir la imagen: ${imageError.message}`);
@@ -66,9 +66,9 @@ const Agregar = () => {
           return; // Detener el proceso si falla la imagen
         }
       }
-      
+
       const newRoutine = await createRoutineApi(finalValues);
-      
+
       dispatch(addRoutine(newRoutine));
       toast.success("¡Rutina creada exitosamente!");
       resetForm();
@@ -83,9 +83,14 @@ const Agregar = () => {
   };
 
   return (
-    <Card className="mb-4">
-      <Card.Header className="bg-primary text-white">
-        <h4 className="mb-0">Agregar Nueva Rutina</h4>
+    <Card className="mb-4 mt-4">
+      <Card.Header
+        className="text-white"
+        style={{
+          background: 'var(--primary-gradient)',
+        }}
+      >
+        <h4 className="mb-0">💪 Agregar Nueva Rutina</h4>
       </Card.Header>
       <Card.Body>
         <Formik
@@ -96,10 +101,10 @@ const Agregar = () => {
           {({ values, errors, touched, handleSubmit, setFieldValue, isSubmitting }) => (
             <Form onSubmit={handleSubmit}>
               {/* Información básica de la rutina */}
-              <RutinaInfoForm 
-                categories={categories} 
-                errors={errors} 
-                touched={touched} 
+              <RutinaInfoForm
+                categories={categories}
+                errors={errors}
+                touched={touched}
               />
 
               {/* Subir imagen de la rutina */}
@@ -131,10 +136,12 @@ const Agregar = () => {
 
                     <Button
                       variant="secondary"
+                      className="btn-secundario"
                       size="sm"
                       onClick={() =>
                         push({ name: "", sets: 0, reps: 0, weight: 0, muscle: "" })
                       }
+                  
                     >
                       ➕ Agregar otro ejercicio
                     </Button>
@@ -144,13 +151,20 @@ const Agregar = () => {
 
               <hr />
 
-              <Button 
-                variant="success" 
-                type="submit" 
-                className="w-100"
+              <Button
+                type="submit"
+                className="w-100 btn-create-routine"
+                size="lg"
                 disabled={isSubmitting}
+                style={{
+                  fontFamily: 'var(--font-headings)',
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  fontSize: '1.4rem'
+                }}
               >
-                {isSubmitting ? "🔄 Creando rutina..." : "✅ Crear Rutina"}
+                {isSubmitting ? "🔄 Creando rutina..." : "Crear Rutina"}
               </Button>
             </Form>
           )}

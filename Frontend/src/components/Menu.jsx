@@ -21,7 +21,7 @@ const Menu = () => {
     <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
       <Container>
         <Navbar.Brand href="/dashboard">
-          <span style={{ fontSize: "1.5rem" }}>💪</span> Fitness Routines
+          <span style={{ fontSize: "1.8rem" }}>Fitness Routines</span> 
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -32,17 +32,26 @@ const Menu = () => {
             <div className="text-white me-3" style={{ fontSize: "0.9rem" }}>
               {email && <span>👤 {email}</span>}
               {perfil && (
-                <span className={`ms-2 badge ${perfil === "PREMIUM" ? "bg-success" : "bg-primary"}`}>
+                <span style={{
+                backgroundColor: perfil === "PREMIUM" ? "var(--primary-color)" : "var(--quaternary-color)",
+                color: "white",
+                padding: "0.35em 0.65em",
+                borderRadius: "0.375rem",
+                fontSize: "0.875em",
+                fontWeight: "700",
+                marginLeft: "10px",
+                display: "inline-block"
+              }}>
                   {perfil}
                 </span>
               )}
             </div>
             <Button 
               variant="outline-light" 
-              size="sm"
+              size="mlg"
               onClick={handleLogout}
             >
-              🚪 Cerrar Sesión
+              Cerrar Sesión
             </Button>
           </Nav>
         </Navbar.Collapse>

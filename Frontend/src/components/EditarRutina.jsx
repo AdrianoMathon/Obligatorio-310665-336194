@@ -77,8 +77,13 @@ const EditarRutina = ({ routine, editForm, setEditForm, onSave, onCancel }) => {
           size="sm"
           className="me-2"
           onClick={() => onSave(routine._id)}
+          style={{
+          background: 'var(--primary-color)',
+          border: 'none',
+          padding: '0.375rem 0.75rem'
+        }}
         >
-          💾 Guardar
+          Guardar
         </Button>
         <Button
           variant="secondary"

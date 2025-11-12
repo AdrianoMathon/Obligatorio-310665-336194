@@ -20,23 +20,21 @@ ChartJS.register(
 );
 
 const Grafica = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
-  // Generar colores dinámicos para cada barra
-  const generarColores = (cantidad) => {
-    const colores = [
-      "rgba(54, 162, 235, 0.8)",   // Azul
-      "rgba(255, 99, 132, 0.8)",   // Rojo
-      "rgba(75, 192, 192, 0.8)",   // Verde agua
-      "rgba(255, 206, 86, 0.8)",   // Amarillo
-      "rgba(153, 102, 255, 0.8)",  // Púrpura
-      "rgba(255, 159, 64, 0.8)",   // Naranja
-      "rgba(201, 203, 207, 0.8)",  // Gris
-      "rgba(255, 99, 255, 0.8)",   // Rosa
-      "rgba(100, 200, 100, 0.8)",  // Verde claro
-      "rgba(200, 100, 50, 0.8)",   // Café
-    ];
-    
-    // Si hay más categorías que colores, repetir el patrón
-    return Array.from({ length: cantidad }, (_, i) => colores[i % colores.length]);
+  // Mapeo de colores por categoría (mismo esquema que FilaRutina)
+  const coloresPorCategoria = {
+    "FUERZA": " #aebc2f",
+    "CARDIO": "#eb5306ff",        
+    "FLEXIBILIDAD": "#e08e00",  
+    "FUNCIONAL": "#42b8aa",     
+    "HIIT": "#899c90",          
+  };
+ 
+  // Generar colores según las categorías recibidas
+  const generarColores = (categorias) => {
+    return categorias.map(categoria => {
+      const color = coloresPorCategoria[categoria] || "#95a5a6"; // Gris por defecto
+      return color + "cc"; // Añadir transparencia (cc = 80% opacidad)
+    });
   };
 
   const options = {
@@ -69,11 +67,11 @@ const Grafica = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
       {
         label: `${nombreDatos ? nombreDatos : "Datos"}`,
         data: datos,
-        backgroundColor: generarColores(etiquetas.length),
-        borderColor: generarColores(etiquetas.length).map(color => 
-          color.replace("0.8", "1")
+        backgroundColor: generarColores(etiquetas),
+        borderColor: generarColores(etiquetas).map(color => 
+          color.replace("cc", "") // Remover transparencia para el borde
         ),
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };

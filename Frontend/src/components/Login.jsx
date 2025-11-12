@@ -71,7 +71,7 @@ const Login = () => {
     <div className="auth-container">
       <div className="auth-card">
         <h1 className="auth-title">{t("login.title")}</h1>
-        <p className="auth-subtitle">Ingresa tus credenciales para continuar</p>
+        <p className="auth-subtitle">Ingresa tus datos para continuar</p>
 
         <Formik
           initialValues={initialValues}

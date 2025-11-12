@@ -62,8 +62,6 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
 
   return (
     <div style={{ maxWidth: 400, margin: "0 auto", textAlign: "center" }}>
-      <h5>Seleccionar imagen</h5>
-
       <input
         type="file"
         id={botonId}
@@ -73,17 +71,18 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
       />
       <label
         htmlFor={botonId}
+        className="btn-secundario"
         style={{
-          backgroundColor: "#007bff",
+          backgroundColor: "var(--grey-color)",
           color: "#fff",
-          padding: "10px 20px",
+          padding: "5px 10px",
           borderRadius: "8px",
           cursor: "pointer",
           display: "inline-block",
           marginBottom: "15px"
         }}
       >
-        📤 Seleccionar archivo
+        Seleccionar archivo
       </label>
 
       {preview && (

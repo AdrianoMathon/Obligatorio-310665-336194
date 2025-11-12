@@ -67,17 +67,7 @@ const Dashboard = () => {
   return (
     <>
       <Menu />
-      <Container className="mt-4">
-        <Row>
-          <Col lg={8}>
-            <Contenido />
-          </Col>
-          <Col lg={4}>
-            <InformeUso />
-            <CambioPlan />
-          </Col>
-        </Row>
-      </Container>
+      <Contenido />
     </>
   );
 };

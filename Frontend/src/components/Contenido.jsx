@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { getRoutinesApi } from "../services/routineServices";
 import { loadRoutines } from "../redux/features/routineSlice";
@@ -8,6 +9,8 @@ import moment from "moment";
 import Agregar from "./Agregar";
 import MisRutinas from "./MisRutinas";
 import FiltroRutinas from "./FiltroRutinas";
+import InformeUso from "./InformeUso";
+import CambioPlan from "./CambioPlan";
 
 const Contenido = () => {
   const { t } = useTranslation();
@@ -17,7 +20,7 @@ const Contenido = () => {
   const [filteredRoutines, setFilteredRoutines] = useState([]);
   const [filterPeriod, setFilterPeriod] = useState("all"); // "week", "month", "all"
 
-  // Cargar rutinas al montar el componente
+  // Cargar rutinas 
   useEffect(() => {
     loadRoutinesFromApi();
   }, []);
@@ -34,7 +37,6 @@ const Contenido = () => {
       toast.success("Rutinas cargadas correctamente");
     } catch (error) {
       console.log("error", error);
-      // El backend devuelve { message: "..." }
       const errorMessage = error?.message || "Error al cargar rutinas";
       toast.error(errorMessage);
     }
@@ -62,21 +64,34 @@ const Contenido = () => {
   };
 
   return (
-    <div className="container mt-4">
-      {/* Componente para agregar nuevas rutinas */}
-      <Agregar />
+    <>
+      {/* Formulario Agregar + Informes*/}
+      <Container className="mt-4 mb-4">
+        <Row>
+          <Col lg={8}>
+            <Agregar />
+          </Col>
+          <Col lg={4}>
+            <InformeUso />
+            <CambioPlan />
+          </Col>
+        </Row>
+      </Container>
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Mis Rutinas</h2>
-        <FiltroRutinas filterPeriod={filterPeriod} setFilterPeriod={setFilterPeriod} />
-      </div>
+      {/* Tabla Mis Rutinas */}
+      <Container className="mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h2>Mis Rutinas</h2>
+          <FiltroRutinas filterPeriod={filterPeriod} setFilterPeriod={setFilterPeriod} />
+        </div>
 
-      <MisRutinas routines={filteredRoutines} />
+        <MisRutinas routines={filteredRoutines} />
 
-      <div className="mt-3 text-muted">
-        Mostrando {filteredRoutines.length} de {routines.length} rutinas
-      </div>
-    </div>
+        <div className="mt-3 text-muted">
+          Mostrando {filteredRoutines.length} de {routines.length} rutinas
+        </div>
+      </Container>
+    </>
   );
 };
 

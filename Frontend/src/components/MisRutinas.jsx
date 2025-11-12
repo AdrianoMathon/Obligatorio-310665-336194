@@ -73,7 +73,7 @@ const MisRutinas = ({ routines }) => {
 
   if (routines.length === 0) {
     return (
-      <div className="alert alert-info">
+      <div className="fondo-no-rutinas">
         No tienes rutinas registradas. ¡Crea tu primera rutina!
       </div>
     );
