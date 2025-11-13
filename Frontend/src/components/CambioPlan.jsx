@@ -29,7 +29,6 @@ const CambioPlan = () => {
       if (response.token) {
         localStorage.setItem("token", response.token);
 
-        // Actualizar usuario en Redux (igual que addRoutine actualiza rutinas)
         dispatch(updateUser());
 
         toast.success(response.message || "¡Upgrade a PREMIUM exitoso!");

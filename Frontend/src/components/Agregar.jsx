@@ -14,7 +14,7 @@ import { uploadImage } from "../services/imageService";
 const Agregar = () => {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
-  const subirImagenRef = useRef(); // ← Referencia para SubirImagen
+  const subirImagenRef = useRef(); 
 
   const initialValues = {
     name: "",
