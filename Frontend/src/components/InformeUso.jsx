@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, ProgressBar, Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Grafica from "./Grafica";
+import "../styles/informe-uso.css";
 
 const InformeUso = () => {
   const routines = useSelector((state) => state.routineSlice);
@@ -58,29 +59,14 @@ const InformeUso = () => {
 
   return (
     <Card className="mb-4 mt-4">
-      <Card.Header 
-        className="text-white"
-        style={{
-          background: 'var(--secondary-gradient)',
-        }}
-      >
+      <Card.Header className="text-white informe-header">
         <h4 className="mb-0">📊 Informe de Uso</h4>
       </Card.Header>
       <Card.Body>
         <div className="mb-3">
           <h5>
             Perfil actual:{" "}
-            <span 
-              style={{
-                backgroundColor: perfil === "PREMIUM" ? "var(--primary-color)" : "var(--quaternary-color)",
-                color: "white",
-                padding: "0.35em 0.65em",
-                borderRadius: "0.375rem",
-                fontSize: "0.875em",
-                fontWeight: "700",
-                display: "inline-block"
-              }}
-            >
+            <span className={`perfil-badge ${perfil === "PREMIUM" ? "perfil-badge-premium" : "perfil-badge-plus"}`}>
               {perfil}
             </span>
           </h5>
@@ -96,7 +82,7 @@ const InformeUso = () => {
                 now={porcentaje}
                 label={`${Math.round(porcentaje)}%`}
                 variant={getVariantColor()}
-                style={{ height: "30px", fontSize: "1rem" }}
+                className="progress-bar-custom"
               />
             </div>
 

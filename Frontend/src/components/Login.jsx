@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Formik, Field } from "formik";
 import { useTranslation } from "react-i18next";
@@ -9,12 +10,14 @@ import { getLoginSchema } from "../schemas/loginSchemas";
 import { loginApi } from "../services/userServices";
 import { jwtDecode } from "jwt-decode";
 import moment from "moment";
+import { setUser } from "../redux/features/userSlice";
 import "../styles/auth.css";
 
 const initialValues = { email: "", password: "" };
 
 const Login = () => {
   const { t, i18n } = useTranslation();
+  const dispatch = useDispatch();
 
   const validationSchema = useMemo(() => {
     return getLoginSchema(t);
@@ -47,6 +50,13 @@ const Login = () => {
 
       localStorage.setItem("token", token);
       localStorage.setItem("userId", userId);
+
+      // Actualizar el estado de Redux con los datos del usuario
+      dispatch(setUser({
+        userId,
+        email: userEmail,
+        perfil: perfil?.[0] || "PLUS"
+      }));
 
       toast.info(`¡Bienvenido de nuevo!`);
 

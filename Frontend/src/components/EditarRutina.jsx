@@ -1,35 +1,20 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import moment from "moment";
+import "../styles/editar-rutina.css";
 
 const EditarRutina = ({ routine, editForm, setEditForm, onSave, onCancel }) => {
   return (
     <>
-      <td style={{ width: "80px" }}>
+      <td className="edit-image-cell">
         {routine.imgUrl ? (
           <img 
             src={routine.imgUrl} 
             alt={routine.name}
-            style={{ 
-              width: "60px", 
-              height: "60px", 
-              objectFit: "cover", 
-              borderRadius: "8px" 
-            }}
+            className="edit-routine-image"
           />
         ) : (
-          <div 
-            style={{ 
-              width: "60px", 
-              height: "60px", 
-              backgroundColor: "#f8f9fa", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center", 
-              borderRadius: "8px",
-              border: "1px dashed #dee2e6"
-            }}
-          >
+          <div className="edit-routine-placeholder">
             📷
           </div>
         )}
@@ -75,13 +60,8 @@ const EditarRutina = ({ routine, editForm, setEditForm, onSave, onCancel }) => {
         <Button
           variant="success"
           size="sm"
-          className="me-2"
+          className="me-2 btn-save-routine"
           onClick={() => onSave(routine._id)}
-          style={{
-          background: 'var(--primary-color)',
-          border: 'none',
-          padding: '0.375rem 0.75rem'
-        }}
         >
           Guardar
         </Button>

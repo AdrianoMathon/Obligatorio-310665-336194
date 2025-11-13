@@ -1,4 +1,5 @@
 import React, { useId, useState, useImperativeHandle, forwardRef } from "react";
+import "../styles/subir-imagen.css";
 
 const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
   const [preview, setPreview] = useState(null);
@@ -68,7 +69,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "0 auto", textAlign: "center" }}>
+    <div className="upload-container">
       <input
         type="file"
         id={botonId}
@@ -78,46 +79,29 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
       />
       <label
         htmlFor={botonId}
-        className="btn-secundario"
-        style={{
-          backgroundColor: "var(--grey-color)",
-          color: "#fff",
-          padding: "5px 10px",
-          borderRadius: "8px",
-          cursor: "pointer",
-          display: "inline-block",
-          marginBottom: "15px"
-        }}
+        className="upload-label"
       >
         Seleccionar archivo
       </label>
 
       {preview && (
-        <div style={{ marginTop: 20 }}>
+        <div className="preview-container">
           <img
             src={preview}
             alt="preview"
-            style={{ width: "100%", maxWidth: "300px", borderRadius: 10 }}
+            className="preview-image"
           />
         </div>
       )}
 
       {preview && (
-        <div style={{ marginTop: 15 }}>
-          <p style={{ color: "#28a745", fontWeight: "bold" }}>
+        <div className="preview-actions">
+          <p className="preview-success-text">
             ✅ Imagen seleccionada - se subirá al crear la rutina
           </p>
           <button
             onClick={handleClear}
-            style={{
-              backgroundColor: "#dc3545",
-              color: "#fff",
-              padding: "6px 12px",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              marginTop: "10px"
-            }}
+            className="btn-delete-image"
           >
             🗑️ Eliminar imagen
           </button>

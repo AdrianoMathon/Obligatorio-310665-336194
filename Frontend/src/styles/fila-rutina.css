@@ -1,0 +1,65 @@
+/* FilaRutina.css - Estilos para las filas de rutina en la tabla */
+
+.routine-image-cell {
+  width: 80px;
+}
+
+.routine-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.routine-placeholder {
+  width: 60px;
+  height: 60px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px dashed #dee2e6;
+}
+
+.category-badge {
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.category-badge-fuerza {
+  background-color: var(--primary-color);
+}
+
+.category-badge-cardio {
+  background-color: #eb5306ff;
+}
+
+.category-badge-flexibilidad {
+  background-color: var(--terciary-color);
+}
+
+.category-badge-funcional {
+  background-color: #42b8aa;
+}
+
+.category-badge-hiit {
+  background-color: var(--grey-color);
+}
+
+.btn-edit-routine {
+  background-color: var(--terciary-color);
+  border: none;
+  color: white;
+}
+
+.btn-edit-routine:hover {
+  background-color: var(--terciary-color);
+  opacity: 0.9;
+}

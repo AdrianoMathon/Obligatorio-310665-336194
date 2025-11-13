@@ -1,0 +1,13 @@
+/* Agregar.css - Estilos para el componente de agregar rutina */
+
+.agregar-header {
+  background: var(--primary-gradient);
+}
+
+.btn-create-routine {
+  font-family: var(--font-headings);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 1.4rem;
+}

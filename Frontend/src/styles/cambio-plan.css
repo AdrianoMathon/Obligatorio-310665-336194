@@ -1,0 +1,41 @@
+/* CambioPlan.css - Estilos para el componente de cambio de plan */
+
+.cambio-plan-header {
+  background: var(--terciary-gradient);
+}
+
+.plan-card-plus {
+  background-color: #e08e0017;
+  margin-bottom: 10px;
+}
+
+.plan-card-premium {
+  background-color: #e08e0017;
+  border: 2px solid var(--terciary-color);
+  border-left: 6px solid var(--terciary-color);
+  margin-bottom: 15px;
+}
+
+.plan-title {
+  margin-bottom: 10px;
+}
+
+.plan-list {
+  margin-bottom: 0;
+}
+
+.btn-upgrade-premium {
+  font-family: var(--font-headings);
+  background: var(--primary-gradient);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.premium-status-card {
+  background-color: #f7ff8717;
+  border: 2px solid var(--primary-color);
+  border-left: 6px solid var(--primary-color);
+  margin-bottom: 15px;
+  padding: 15px;
+}

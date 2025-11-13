@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../redux/features/userSlice";
 import ModalConfirmacion from "./ModalConfirmacion";
+import "../styles/cambio-plan.css";
 
 const CambioPlan = () => {
   const { perfil } = useSelector((state) => state.userSlice);
@@ -60,43 +61,26 @@ const CambioPlan = () => {
       />
 
       <Card className="mb-4">
-        <Card.Header
-          className="text-white"
-          style={{
-            background: 'var(--terciary-gradient)',
-          }}>
+        <Card.Header className="text-white cambio-plan-header">
           <h4 className="mb-0">⭐ Cambio de Plan</h4>
-
         </Card.Header>
         <Card.Body>
           {perfil === "PLUS" ? (
             <>
-              <Card
-                style={{
-                  backgroundColor: '#e08e0017',
-                  marginBottom: '10px',
-                }}
-              >
+              <Card className="plan-card-plus">
                 <Card.Body>
-                  <h5 style={{ marginBottom: '10px' }}>Plan actual: PLUS</h5>
-                  <ul style={{ marginBottom: '0' }}>
+                  <h5 className="plan-title">Plan actual: PLUS</h5>
+                  <ul className="plan-list">
                     <li>Hasta 10 rutinas</li>
                     <li>Todas las funcionalidades básicas</li>
                   </ul>
                 </Card.Body>
               </Card>
 
-              <Card
-                style={{
-                  backgroundColor: '#e08e0017',
-                  border: '2px solid var(--terciary-color)',
-                  borderLeft: '6px solid var(--terciary-color)',
-                  marginBottom: '15px'
-                }}
-              >
+              <Card className="plan-card-premium">
                 <Card.Body>
-                  <h5 style={{ marginBottom: '10px' }}>Beneficios del Plan PREMIUM</h5>
-                  <ul style={{ marginBottom: '0' }}>
+                  <h5 className="plan-title">Beneficios del Plan PREMIUM</h5>
+                  <ul className="plan-list">
                     <li><strong>Rutinas ilimitadas</strong></li>
                     <li>Todas las funcionalidades</li>
                     <li>Sin restricciones</li>
@@ -109,28 +93,14 @@ const CambioPlan = () => {
                   size="lg"
                   onClick={handleUpgradeToPremium}
                   disabled={loading}
-                  style={{
-                    fontFamily: 'var(--font-headings)',
-                    backgroundColor: 'var(--primary-gradient)',
-                    fontWeight: '400',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-
-                  }}
+                  className="btn-upgrade-premium"
                 >
                   {loading ? "Procesando..." : "🌟 Cambiar a PREMIUM"}
                 </Button>
               </div>
             </>
           ) : (
-            <Card variant="success"
-              style={{
-                backgroundColor: '#f7ff8717',
-                border: '2px solid var(--primary-color)',
-                borderLeft: '6px solid var(--primary-color)',
-                marginBottom: '15px',
-                padding: '15px'
-              }}>
+            <Card className="premium-status-card">
               <h5>✅ Ya eres usuario PREMIUM</h5>
               <p className="mb-0">
                 Disfrutas de todos los beneficios del plan más completo con

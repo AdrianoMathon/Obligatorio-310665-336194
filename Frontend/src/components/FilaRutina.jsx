@@ -1,86 +1,51 @@
 import React from "react";
 import { Button, Badge } from "react-bootstrap";
 import moment from "moment";
+import "../styles/fila-rutina.css";
 
 const FilaRutina = ({ routine, onEdit, onDelete }) => {
-  const getCategoryBadge = (category) => {
-    const colors = {
-      FUERZA: "var(--primary-color)",
-      CARDIO: "#eb5306ff",
-      FLEXIBILIDAD: "var(--terciary-color)",
-      FUNCIONAL: "#42b8aa",
-      HIIT: "var(--grey-color)", 
+  const getCategoryClass = (category) => {
+    const classes = {
+      FUERZA: "category-badge-fuerza",
+      CARDIO: "category-badge-cardio",
+      FLEXIBILIDAD: "category-badge-flexibilidad",
+      FUNCIONAL: "category-badge-funcional",
+      HIIT: "category-badge-hiit", 
     };
 
-    const bgColor = colors[category] || "#6c757d"; 
-
-    return (
-      <span
-        style={{
-          backgroundColor: bgColor,
-          color: 'white',
-          border: 'none',
-          fontWeight: '600',
-          padding: '4px 8px',
-          borderRadius: '4px',
-          fontSize: '0.75rem',
-          textTransform: 'uppercase',
-          display: 'inline-block'
-        }}
-      >
-        {category}
-      </span>
-    );
+    return classes[category] || "";
   };
 
   return (
     <>
-      <td style={{ width: "80px" }}>
+      <td className="routine-image-cell">
         {routine.imgUrl ? (
           <img
             src={routine.imgUrl}
             alt={routine.name}
-            style={{
-              width: "80px",
-              height: "80px",
-              objectFit: "cover",
-              borderRadius: "8px"
-            }}
+            className="routine-image"
           />
         ) : (
-          <div
-            style={{
-              width: "60px",
-              height: "60px",
-              backgroundColor: "#f8f9fa",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "8px",
-              border: "1px dashed #dee2e6"
-            }}
-          >
+          <div className="routine-placeholder">
             📷
           </div>
         )}
       </td>
       <td>{routine.name}</td>
       <td>{routine.description || "-"}</td>
-      <td>{getCategoryBadge(routine.category)}</td>
+      <td>
+        <span className={`category-badge ${getCategoryClass(routine.category)}`}>
+          {routine.category}
+        </span>
+      </td>
       <td>{routine.exercises?.length || 0}</td>
       <td>{moment(routine.createdAt).format("DD/MM/YYYY")}</td>
       <td>
         <Button
           variant="warning"
           size="sm"
-          className="me-2"
+          className="me-2 btn-edit-routine"
           onClick={() => onEdit(routine)}
-          style={{
-            backgroundColor: "var(--terciary-color)",
-            border: "none",
-            color: "white"
-
-          }}
         >
           Editar
         </Button>

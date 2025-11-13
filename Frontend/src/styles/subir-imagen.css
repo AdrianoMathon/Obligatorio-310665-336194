@@ -1,0 +1,54 @@
+/* SubirImagen.css - Estilos para el componente de subida de imágenes */
+
+.upload-container {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.upload-label {
+  background-color: var(--grey-color);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.upload-label:hover {
+  opacity: 0.9;
+}
+
+.preview-container {
+  margin-top: 20px;
+}
+
+.preview-image {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+}
+
+.preview-actions {
+  margin-top: 15px;
+}
+
+.preview-success-text {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.btn-delete-image {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-delete-image:hover {
+  background-color: #c82333;
+}

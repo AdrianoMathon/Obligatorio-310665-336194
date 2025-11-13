@@ -10,6 +10,7 @@ import RutinaInfoForm from "./RutinaInfoForm";
 import EjercicioForm from "./EjercicioForm";
 import SubirImagen from "./SubirImagen";
 import { uploadImage } from "../services/imageService";
+import "../styles/agregar.css";
 
 const Agregar = () => {
   const dispatch = useDispatch();
@@ -92,12 +93,7 @@ const Agregar = () => {
 
   return (
     <Card className="mb-4 mt-4">
-      <Card.Header
-        className="text-white"
-        style={{
-          background: 'var(--primary-gradient)',
-        }}
-      >
+      <Card.Header className="text-white agregar-header">
         <h4 className="mb-0">💪 Agregar Nueva Rutina</h4>
       </Card.Header>
       <Card.Body>
@@ -165,13 +161,6 @@ const Agregar = () => {
                 className="w-100 btn-create-routine"
                 size="lg"
                 disabled={isSubmitting}
-                style={{
-                  fontFamily: 'var(--font-headings)',
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  fontSize: '1.4rem'
-                }}
               >
                 {isSubmitting ? "🔄 Creando rutina..." : "Crear Rutina"}
               </Button>

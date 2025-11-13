@@ -1,5 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import "../styles/filtro-rutinas.css";
 
 const FiltroRutinas = ({ filterPeriod, setFilterPeriod }) => {
   return (
@@ -8,7 +9,7 @@ const FiltroRutinas = ({ filterPeriod, setFilterPeriod }) => {
       <Form.Select
         value={filterPeriod}
         onChange={(e) => setFilterPeriod(e.target.value)}
-        style={{ width: "auto", display: "inline-block" }}
+        className="filter-select"
       >
         <option value="all">Todo el histórico</option>
         <option value="week">Última semana</option>
