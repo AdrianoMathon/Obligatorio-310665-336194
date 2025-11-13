@@ -6,7 +6,7 @@ const validCategories = routineSchema.path('category').enumValues;
 
 export const validateCreateRoutine = Joi.object({
     name: Joi.string().min(3).max(50).required(),
-    description: Joi.string().max(200).optional(),
+    description: Joi.string().max(200).optional().allow('', null),
     imgUrl: Joi.string().uri().optional().allow('', null),
     category: Joi.string().valid(...validCategories).required(),
     exercises: Joi.array().items(

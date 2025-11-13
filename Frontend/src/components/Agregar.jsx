@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Button, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ import { uploadImage } from "../services/imageService";
 const Agregar = () => {
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
+  const subirImagenRef = useRef(); // ← Referencia para SubirImagen
 
   const initialValues = {
     name: "",
@@ -71,10 +72,17 @@ const Agregar = () => {
 
       dispatch(addRoutine(newRoutine));
       toast.success("¡Rutina creada exitosamente!");
+      
+      // Resetear formulario
       resetForm();
+      
+      // Resetear componente de imagen
+      if (subirImagenRef.current) {
+        subirImagenRef.current.reset();
+      }
     } catch (error) {
       console.error("Error al crear rutina:", error);
-      // El backend devuelve { message: "..." }
+
       const errorMessage = error?.message || "Error al crear rutina";
       toast.error(errorMessage);
     } finally {
@@ -111,6 +119,7 @@ const Agregar = () => {
               <div className="mb-3">
                 <label className="form-label">Imagen de la rutina (opcional)</label>
                 <SubirImagen
+                  ref={subirImagenRef}
                   handleImgURL={(auxImgUrl) => setFieldValue('imgUrl', auxImgUrl)}
                 />
               </div>

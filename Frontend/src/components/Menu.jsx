@@ -2,16 +2,21 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import { useUserProfile } from "../utils/useUserProfile";
+import { useSelector, useDispatch } from "react-redux";
+import { clearUser } from "../redux/features/userSlice";
 
 const Menu = () => {
   const navigate = useNavigate();
-  const { perfil, email } = useUserProfile();
+  const dispatch = useDispatch();
+  const { perfil, email } = useSelector((state) => state.userSlice);
   
   const handleLogout = () => {
-    let localStorage = window.localStorage;
+    // Limpiar localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+
+    // Limpiar estado de Redux
+    dispatch(clearUser());
 
     toast.info("Sesión cerrada exitosamente");
     navigate("/login");

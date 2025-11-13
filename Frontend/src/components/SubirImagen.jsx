@@ -8,6 +8,13 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
   useImperativeHandle(ref, () => ({
     reset() {
       setPreview(null);
+      handleImgURL(""); 
+      
+      // Limpiar el input file
+      const input = document.getElementById(botonId);
+      if (input) {
+        input.value = "";
+      }
     },
   }));
 

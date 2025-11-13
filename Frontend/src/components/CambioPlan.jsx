@@ -4,11 +4,13 @@ import { toast } from "react-toastify";
 import { upgradeToPremiumApi } from "../services/userServices";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser } from "../redux/features/userSlice";
 import ModalConfirmacion from "./ModalConfirmacion";
-import { useUserProfile } from "../utils/useUserProfile";
 
 const CambioPlan = () => {
-  const { perfil, actualizarPerfil } = useUserProfile();
+  const { perfil } = useSelector((state) => state.userSlice);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -27,18 +29,10 @@ const CambioPlan = () => {
       if (response.token) {
         localStorage.setItem("token", response.token);
 
-        // Decodificar el nuevo token para actualizar el estado local
-        const decoded = jwtDecode(response.token);
-
-        // Actualizar el perfil usando el custom hook
-        actualizarPerfil();
+        // Actualizar usuario en Redux (igual que addRoutine actualiza rutinas)
+        dispatch(updateUser());
 
         toast.success(response.message || "¡Upgrade a PREMIUM exitoso!");
-
-        // Recargar la página para actualizar todos los componentes con el nuevo token
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
       } else {
         toast.error("Error: No se recibió el token actualizado");
       }
@@ -46,6 +40,7 @@ const CambioPlan = () => {
       console.log("error", error);
       const errorMessage = error?.message || "Error al cambiar de plan";
       toast.error(errorMessage);
+    } finally {
       setLoading(false);
     }
   };
@@ -92,7 +87,7 @@ const CambioPlan = () => {
                 </Card.Body>
               </Card>
 
-              <Card 
+              <Card
                 style={{
                   backgroundColor: '#e08e0017',
                   border: '2px solid var(--terciary-color)',
@@ -111,7 +106,7 @@ const CambioPlan = () => {
               </Card>
 
               <div className="d-grid gap-2">
-                <Button        
+                <Button
                   size="lg"
                   onClick={handleUpgradeToPremium}
                   disabled={loading}
@@ -121,7 +116,7 @@ const CambioPlan = () => {
                     fontWeight: '400',
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px',
-                    
+
                   }}
                 >
                   {loading ? "Procesando..." : "🌟 Cambiar a PREMIUM"}
@@ -130,13 +125,13 @@ const CambioPlan = () => {
             </>
           ) : (
             <Card variant="success"
-            style={{
-                  backgroundColor: '#f7ff8717',
-                  border: '2px solid var(--primary-color)',
-                  borderLeft: '6px solid var(--primary-color)',
-                  marginBottom: '15px',
-                  padding: '15px'
-                }}>
+              style={{
+                backgroundColor: '#f7ff8717',
+                border: '2px solid var(--primary-color)',
+                borderLeft: '6px solid var(--primary-color)',
+                marginBottom: '15px',
+                padding: '15px'
+              }}>
               <h5>✅ Ya eres usuario PREMIUM</h5>
               <p className="mb-0">
                 Disfrutas de todos los beneficios del plan más completo con

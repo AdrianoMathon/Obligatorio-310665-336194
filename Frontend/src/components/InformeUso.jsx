@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Card, ProgressBar, Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useUserProfile } from "../utils/useUserProfile";
 import Grafica from "./Grafica";
 
 const InformeUso = () => {
   const routines = useSelector((state) => state.routineSlice);
-  const { perfil } = useUserProfile();
+  const { perfil } = useSelector((state) => state.userSlice);
   const [limiteRutinas, setLimiteRutinas] = useState(0);
   const [porcentaje, setPorcentaje] = useState(0);
 
@@ -24,7 +23,6 @@ const InformeUso = () => {
   }, [routines, perfil]);
 
   const calcularPorcentaje = () => {
-    // Calcular porcentaje para usuarios PLUS usando el estado de Redux
     if (perfil === "PLUS" && routines.length > 0) {
       const porcentajeCalculado = (routines.length / 10) * 100;
       setPorcentaje(porcentajeCalculado);

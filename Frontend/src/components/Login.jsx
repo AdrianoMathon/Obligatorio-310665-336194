@@ -24,20 +24,14 @@ const Login = () => {
 
   const onSubmit = async (values, actions) => {
     try {
-      console.log("valores del formulario", values);
-
-      const { email, password } = values;
+            const { email, password } = values;
       const { token } = await loginApi(email, password);
-      console.log("token", token);
-
+      
       let localStorage = window.localStorage;
 
       const decoded = jwtDecode(token);
-      console.log("Contenido del token:", decoded);
-
+      
       const { exp, iat, id: userId, email: userEmail, perfil } = decoded;
-
-      console.log("decodificado ", exp, userId, userEmail, perfil);
 
       const expirationTime = moment.unix(exp);
       const createTime = moment.unix(iat);
