@@ -37,7 +37,6 @@ const CambioPlan = () => {
         toast.error("Error: No se recibió el token actualizado");
       }
     } catch (error) {
-      console.log("error", error);
       const errorMessage = error?.message || "Error al cambiar de plan";
       toast.error(errorMessage);
     } finally {

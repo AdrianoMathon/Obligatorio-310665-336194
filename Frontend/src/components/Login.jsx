@@ -36,18 +36,6 @@ const Login = () => {
       
       const { exp, iat, id: userId, email: userEmail, perfil } = decoded;
 
-      const expirationTime = moment.unix(exp);
-      const createTime = moment.unix(iat);
-
-      console.log("createTime", createTime);
-
-      const now = moment();
-
-      const diffMinutes = expirationTime.diff(now, "minutes");
-      const diffSeconds = expirationTime.diff(now, "seconds");
-
-      console.log(diffMinutes, diffSeconds);
-
       localStorage.setItem("token", token);
       localStorage.setItem("userId", userId);
 
@@ -65,7 +53,6 @@ const Login = () => {
       // Redirigir al dashboard después del login exitoso
       navigate("/dashboard", { replace: true });
     } catch (error) {
-      console.log("error", error);
       // Mostrar el error en la interfaz
       toast.error(error.message || "Error al iniciar sesión");
     }

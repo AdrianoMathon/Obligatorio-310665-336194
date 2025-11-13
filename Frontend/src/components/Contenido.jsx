@@ -36,7 +36,6 @@ const Contenido = () => {
       dispatch(loadRoutines(data));
       toast.success("Rutinas cargadas correctamente");
     } catch (error) {
-      console.log("error", error);
       const errorMessage = error?.message || "Error al cargar rutinas";
       toast.error(errorMessage);
     }

@@ -19,11 +19,9 @@ api.interceptors.request.use(config => {
 export const registerApi = (name, email, password) => {
     return api.post('/signup', { name, email, password })
         .then(response => {
-            console.log("Usuario registrado:", response.data);
             return response.data;
         })
         .catch(error => {
-            console.error("Error al registrar usuario:", error);
             throw error.response?.data || error;
         });
 };
@@ -32,11 +30,9 @@ export const registerApi = (name, email, password) => {
 export const loginApi = (email, password) => {
     return api.post('/login', { email, password })
         .then(response => {
-            console.log("Login exitoso:", response.data);
             return response.data;
         })
         .catch(error => {
-            console.error("Error al hacer login:", error);
             throw error.response?.data || error;
         });
 };
@@ -45,11 +41,9 @@ export const loginApi = (email, password) => {
 export const upgradeToPremiumApi = () => {
     return api.patch('/users/upgrade-premium')
         .then(response => {
-            console.log("Upgrade exitoso:", response.data);
             return response.data;
         })
         .catch(error => {
-            console.error("Error al hacer upgrade:", error);
             throw error.response?.data || error;
         });
 };

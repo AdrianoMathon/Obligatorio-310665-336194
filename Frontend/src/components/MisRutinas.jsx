@@ -28,7 +28,6 @@ const MisRutinas = ({ routines }) => {
       setShowModal(false);
       setRoutineToDelete(null);
     } catch (error) {
-      console.log("error", error);
       // El backend devuelve { message: "..." }
       const errorMessage = error?.message || "Error al eliminar rutina";
       toast.error(errorMessage);
@@ -64,7 +63,6 @@ const MisRutinas = ({ routines }) => {
       setEditingId(null);
       setEditForm({});
     } catch (error) {
-      console.log("error", error);
       // El backend devuelve { message: "..." }
       const errorMessage = error?.message || "Error al actualizar rutina";
       toast.error(errorMessage);

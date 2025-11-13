@@ -82,8 +82,6 @@ const Agregar = () => {
         subirImagenRef.current.reset();
       }
     } catch (error) {
-      console.error("Error al crear rutina:", error);
-
       const errorMessage = error?.message || "Error al crear rutina";
       toast.error(errorMessage);
     } finally {

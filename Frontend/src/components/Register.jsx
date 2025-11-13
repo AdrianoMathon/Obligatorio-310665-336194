@@ -28,18 +28,14 @@ const Register = () => {
 
   const onSubmit = async (values, actions) => {
     try {
-      console.log("valores del formulario", values);
 
       const { name, email, password } = values;
       
       // Llamada a la API de registro
       const { usuario, token } = await registerApi(name, email, password);
-      console.log("Usuario registrado:", usuario);
-      console.log("Token recibido:", token);
 
       // Decodificar el token
       const decoded = jwtDecode(token);
-      console.log("Contenido del token:", decoded);
 
       const { id: userId, email: userEmail, perfil } = decoded;
 
@@ -55,7 +51,6 @@ const Register = () => {
       // Auto-login: Redirigir al dashboard después del registro exitoso
       navigate("/dashboard", { replace: true });
     } catch (error) {
-      console.log("error en registro", error);
       // Mostrar el error en la interfaz
       toast.error(error.message || "Error al registrar usuario");
     }
