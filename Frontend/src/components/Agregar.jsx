@@ -42,7 +42,6 @@ const Agregar = () => {
       const cats = await getCategoriesApi();
       setCategories(cats);
     } catch (error) {
-      // El backend devuelve { message: "..." }
       const errorMessage = error?.message || "Error al cargar categorías";
       toast.error(errorMessage);
     }
@@ -52,7 +51,6 @@ const Agregar = () => {
     try {
       setSubmitting(true);
 
-      // Si hay imagen en base64, subirla primero
       let finalValues = { ...values };
 
       if (values.imgUrl && values.imgUrl.startsWith('data:')) {
@@ -102,14 +100,13 @@ const Agregar = () => {
         >
           {({ values, errors, touched, handleSubmit, setFieldValue, isSubmitting }) => (
             <Form onSubmit={handleSubmit}>
-              {/* Información básica de la rutina */}
+
               <RutinaInfoForm
                 categories={categories}
                 errors={errors}
                 touched={touched}
               />
 
-              {/* Subir imagen de la rutina */}
               <div className="mb-3">
                 <label className="form-label">Imagen de la rutina (opcional)</label>
                 <SubirImagen
@@ -121,7 +118,6 @@ const Agregar = () => {
               <hr />
               <h5>Ejercicios</h5>
 
-              {/* Array de ejercicios */}
               <FieldArray name="exercises">
                 {({ push, remove }) => (
                   <>

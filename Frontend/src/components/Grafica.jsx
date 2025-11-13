@@ -20,7 +20,6 @@ ChartJS.register(
 );
 
 const Grafica = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
-  // Mapeo de colores por categoría (mismo esquema que FilaRutina)
   const coloresPorCategoria = {
     "FUERZA": " #aebc2f",
     "CARDIO": "#eb5306ff",        
@@ -32,8 +31,8 @@ const Grafica = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
   // Generar colores según las categorías recibidas
   const generarColores = (categorias) => {
     return categorias.map(categoria => {
-      const color = coloresPorCategoria[categoria] || "#95a5a6"; // Gris por defecto
-      return color + "cc"; // Añadir transparencia (cc = 80% opacidad)
+      const color = coloresPorCategoria[categoria] || "#95a5a6"; 
+      return color + "cc"; 
     });
   };
 
@@ -55,7 +54,7 @@ const Grafica = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
       y: {
         beginAtZero: true,
         ticks: {
-          stepSize: 1, // Mostrar solo números enteros
+          stepSize: 1, 
         },
       },
     },
@@ -69,7 +68,7 @@ const Grafica = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
         data: datos,
         backgroundColor: generarColores(etiquetas),
         borderColor: generarColores(etiquetas).map(color => 
-          color.replace("cc", "") // Remover transparencia para el borde
+          color.replace("cc", "")
         ),
         borderWidth: 2,
       },

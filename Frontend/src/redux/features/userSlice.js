@@ -1,8 +1,6 @@
-// src/redux/features/userSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 
-// Función para cargar datos del usuario desde el token
 const loadUserFromToken = () => {
   try {
     const token = localStorage.getItem("token");
@@ -37,7 +35,6 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        // Establecer usuario manualmente (útil después del login)
         setUser: (state, action) => {
             const { userId, name, email, perfil } = action.payload;
             state.userId = userId;
@@ -47,7 +44,6 @@ const userSlice = createSlice({
             state.isAuthenticated = true;
         },
         
-        // Actualizar desde token (útil después de upgrade a premium)
         updateUser: (state) => {
             const userData = loadUserFromToken();
             return userData;

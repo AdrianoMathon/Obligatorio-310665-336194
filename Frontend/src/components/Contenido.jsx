@@ -18,7 +18,7 @@ const Contenido = () => {
   const routines = useSelector((state) => state.routineSlice);
   
   const [filteredRoutines, setFilteredRoutines] = useState([]);
-  const [filterPeriod, setFilterPeriod] = useState("all"); // "week", "month", "all"
+  const [filterPeriod, setFilterPeriod] = useState("all"); 
 
   // Cargar rutinas 
   useEffect(() => {
@@ -64,7 +64,6 @@ const Contenido = () => {
 
   return (
     <>
-      {/* Formulario Agregar + Informes*/}
       <Container className="mt-4 mb-4">
         <Row>
           <Col lg={8}>
@@ -77,7 +76,6 @@ const Contenido = () => {
         </Row>
       </Container>
 
-      {/* Tabla Mis Rutinas */}
       <Container className="mb-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2>Mis Rutinas</h2>

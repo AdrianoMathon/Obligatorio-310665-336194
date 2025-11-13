@@ -15,7 +15,7 @@ const InformeUso = () => {
     if (perfil === "PLUS") {
       setLimiteRutinas(10);
     } else if (perfil === "PREMIUM") {
-      setLimiteRutinas(0); // 0 significa ilimitado
+      setLimiteRutinas(0);
     }
   }, [perfil]);
 
@@ -34,7 +34,7 @@ const InformeUso = () => {
 
   const calcularDistribucionPorCategoria = () => {
     const distribucion = {};
-    
+
     routines.forEach((routine) => {
       const categoria = routine.category || "Sin categoría";
       distribucion[categoria] = (distribucion[categoria] || 0) + 1;
@@ -93,7 +93,6 @@ const InformeUso = () => {
               </div>
             )}
 
-            {/* Gráfica de distribución por categoría */}
             {routines.length > 0 && (
               <div className="mt-4">
                 <Grafica
@@ -114,7 +113,6 @@ const InformeUso = () => {
               </div>
             </div>
 
-            {/* Gráfica de distribución por categoría para PREMIUM */}
             {routines.length > 0 && (
               <div className="mt-4">
                 <Grafica

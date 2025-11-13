@@ -15,7 +15,6 @@ api.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-// Función para obtener rutinas
 export const getRoutinesApi = () => {
     return api.get('/routines')
         .then(response => response.data.rutinas)
@@ -24,7 +23,6 @@ export const getRoutinesApi = () => {
         });
 }
 
-// Función para crear una rutina
 export const createRoutineApi = (routine) => {
     return api.post('/routines', routine)
         .then(response => {
@@ -35,7 +33,6 @@ export const createRoutineApi = (routine) => {
         });
 };
 
-// Función para actualizar una rutina
 export const updateRoutineApi = (id, routine) => {
     return api.put(`/routines/${id}`, routine)
         .then(response => {
@@ -46,7 +43,6 @@ export const updateRoutineApi = (id, routine) => {
         });
 };
 
-// Función para eliminar una rutina
 export const deleteRoutineApi = (id) => {
     return api.delete(`/routines/${id}`)
         .then(response => {
@@ -57,7 +53,6 @@ export const deleteRoutineApi = (id) => {
         });
 };
 
-// Función para obtener categorías
 export const getCategoriesApi = () => {
     return api.get('/routines/categories')
         .then(response => response.data.categorias)
@@ -66,7 +61,6 @@ export const getCategoriesApi = () => {
         });
 };
 
-// Función para obtener el conteo de rutinas del usuario
 export const getRoutineCountApi = () => {
     return api.get('/routines/count')
         .then(response => response.data)

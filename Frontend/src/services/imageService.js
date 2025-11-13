@@ -2,7 +2,6 @@ import { urlBackend } from '../constants/constants';
 
 const URL_IMAGES = `${urlBackend}/images`;
 
-// Obtener token JWT del localStorage
 const getAuthToken = () => {
     return localStorage.getItem('token');
 };

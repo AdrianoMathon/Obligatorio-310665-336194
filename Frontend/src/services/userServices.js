@@ -15,7 +15,6 @@ api.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-// Función para registrar un usuario
 export const registerApi = (name, email, password) => {
     return api.post('/signup', { name, email, password })
         .then(response => {
@@ -26,7 +25,6 @@ export const registerApi = (name, email, password) => {
         });
 };
 
-// Función para login de usuario
 export const loginApi = (email, password) => {
     return api.post('/login', { email, password })
         .then(response => {
@@ -37,7 +35,6 @@ export const loginApi = (email, password) => {
         });
 };
 
-// Función para upgrade a PREMIUM
 export const upgradeToPremiumApi = () => {
     return api.patch('/users/upgrade-premium')
         .then(response => {

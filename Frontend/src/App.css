@@ -18,7 +18,7 @@
 }
 
 /* Personalizaciones de Bootstrap específicas para la app */
-/* Solo aplicar a botones primary que NO tengan clases personalizadas */
+
 .btn-primary {
   background: var(--primary-gradient);
   border: none;
@@ -35,7 +35,6 @@
   outline: none;
 }
 
-/* Estilo consistente para las cards de la aplicación */
 .card {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

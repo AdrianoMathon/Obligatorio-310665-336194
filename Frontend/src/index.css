@@ -2,12 +2,12 @@
   /* Fuentes */
   --font-primary: 'Nunito Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   --font-headings: 'Passion One', cursive;
-  
+
   font-family: var(--font-primary);
   line-height: 1.5;
   font-weight: 400;
 
-  /* Variables de color para consistencia */
+  /* Variables de color */
   --primary-gradient: linear-gradient(135deg, #aebc2f 0%, #ddeb60 130%);
   --secondary-gradient: linear-gradient(135deg, #1b877e -30%, #45baac 100%);
   --terciary-gradient: linear-gradient(135deg, #e08e00 0%, #fdb944 100%);
@@ -46,6 +46,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -58,71 +59,80 @@ body {
   overflow-x: hidden;
 }
 
-/* Tipografía personalizada */
-h1, h2, h3, h4, 
+h1,
+h2,
+h3,
+h4,
 .navbar-brand,
 .card-title {
   font-family: var(--font-headings);
-  font-weight: 700; /* Passion One peso medio */
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .auth-title {
   font-family: var(--font-headings);
-  font-weight: 700; /* Passion One peso balanceado */
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-/* Jerarquía tipográfica con Passion One + Nunito Sans */
-h1 { 
-  font-weight: 700; 
-  font-size: 2.8rem; 
+h1 {
+  font-weight: 700;
+  font-size: 2.8rem;
   letter-spacing: 1px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-h2 { 
-  font-weight: 700; 
-  font-size: 2.2rem; 
+
+h2 {
+  font-weight: 700;
+  font-size: 2.2rem;
   letter-spacing: 0.8px;
 }
-h3 { 
-  font-weight: 700; 
-  font-size: 1.9rem; 
+
+h3 {
+  font-weight: 700;
+  font-size: 1.9rem;
   letter-spacing: 0.6px;
 }
-h4 { 
-  font-weight: 400; 
-  font-size: 1.6rem; 
+
+h4 {
+  font-weight: 400;
+  font-size: 1.6rem;
   letter-spacing: 0.4px;
 }
 
-/* H5 específico con Nunito Sans y peso fuerte */
-h5 { 
+h5 {
   font-family: var(--font-primary) !important;
-  font-weight: 800 !important; 
-  font-size: 1.4rem; 
+  font-weight: 800 !important;
+  font-size: 1.4rem;
   letter-spacing: 0.2px;
   text-transform: none !important;
 }
 
-h6 { 
-  font-weight: 400; 
+h6 {
+  font-weight: 400;
   font-size: 1.2rem;
 }
 
-/* Nunito Sans para el cuerpo del texto */
-body { 
+body {
   font-family: var(--font-primary);
-  font-weight: 400; 
+  font-weight: 400;
 }
 
-.text-light { font-weight: 300; }
-.text-semibold { font-weight: 600; }
-.text-bold { font-weight: 700; }
+.text-light {
+  font-weight: 300;
+}
 
-/* Estilo especial para títulos importantes */
+.text-semibold {
+  font-weight: 600;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
 .display-title {
   font-family: var(--font-headings);
   font-weight: 700;
@@ -130,15 +140,21 @@ body {
   color: var(--primary-color);
   text-transform: uppercase;
   letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-/* Clases auxiliares para diferentes intensidades */
-.title-bold { font-weight: 700; }
-.title-medium { font-weight: 700; }
-.title-regular { font-weight: 400; }
+.title-bold {
+  font-weight: 700;
+}
 
-/* Botón personalizado PREMIUM */
+.title-medium {
+  font-weight: 700;
+}
+
+.title-regular {
+  font-weight: 400;
+}
+
 .btn-custom-premium {
   background: var(--terciary-color) !important;
   background-color: var(--terciary-color) !important;
@@ -179,7 +195,6 @@ body {
   outline: none;
 }
 
-/* Botón Crear Rutina */
 .btn-create-routine {
   background: var(--primary-color) !important;
   background-color: var(--primary-color) !important;
@@ -213,7 +228,7 @@ body {
   transform: none;
 }
 
-.btn-secundario{
+.btn-secundario {
 
   background-color: var(--grey-color) !important;
   border: none !important;
@@ -224,13 +239,13 @@ body {
 }
 
 .btn-secundario:hover:not(:disabled) {
- 
+
   background-color: #7f8c83 !important;
   transform: translate(0.5px);
   outline: none;
 }
 
-.fondo-no-rutinas{
+.fondo-no-rutinas {
   background-color: #fffbea;
   padding: 20px;
   border: 1px solid var(--primary-color);
@@ -238,12 +253,12 @@ body {
   text-align: center;
   color: var(--grey-color);
 }
-/* Estilos de botones manejados por Bootstrap y componentes específicos */
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
   }
+
   a:hover {
     color: #747bff;
   }

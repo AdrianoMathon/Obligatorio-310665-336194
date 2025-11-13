@@ -10,11 +10,11 @@ import { registerApi } from "../services/userServices";
 import { jwtDecode } from "jwt-decode";
 import "../styles/auth.css";
 
-const initialValues = { 
-  name: "", 
-  email: "", 
+const initialValues = {
+  name: "",
+  email: "",
   password: "",
-  confirmPassword: "" 
+  confirmPassword: ""
 };
 
 const Register = () => {
@@ -30,7 +30,7 @@ const Register = () => {
     try {
 
       const { name, email, password } = values;
-      
+
       // Llamada a la API de registro
       const { usuario, token } = await registerApi(name, email, password);
 
@@ -69,9 +69,9 @@ const Register = () => {
         >
           {({ values, errors, touched, handleSubmit, handleChange, isValid, dirty }) => {
             // Verificar si las contraseñas coinciden
-            const passwordsMatch = values.password && values.confirmPassword && 
-                                  values.password === values.confirmPassword;
-            
+            const passwordsMatch = values.password && values.confirmPassword &&
+              values.password === values.confirmPassword;
+
             // Deshabilitar botón si las contraseñas no coinciden o hay errores
             const isButtonDisabled = !passwordsMatch || !isValid || !dirty;
 
@@ -135,7 +135,6 @@ const Register = () => {
                   {errors.confirmPassword && touched.confirmPassword && (
                     <p className="text-danger">{errors.confirmPassword}</p>
                   )}
-                  {/* Indicador visual de contraseñas coincidentes */}
                   {values.password && values.confirmPassword && (
                     <div className={`password-match-indicator ${passwordsMatch ? 'success' : 'warning'}`}>
                       {passwordsMatch ? '✓ Las contraseñas coinciden' : '⚠ Las contraseñas no coinciden'}
@@ -143,8 +142,8 @@ const Register = () => {
                   )}
                 </Form.Group>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="auth-button"
                   disabled={isButtonDisabled}
                 >

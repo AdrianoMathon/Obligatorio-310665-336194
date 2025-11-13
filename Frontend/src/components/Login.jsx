@@ -27,13 +27,13 @@ const Login = () => {
 
   const onSubmit = async (values, actions) => {
     try {
-            const { email, password } = values;
+      const { email, password } = values;
       const { token } = await loginApi(email, password);
-      
+
       let localStorage = window.localStorage;
 
       const decoded = jwtDecode(token);
-      
+
       const { exp, iat, id: userId, email: userEmail, perfil } = decoded;
 
       localStorage.setItem("token", token);
@@ -105,8 +105,8 @@ const Login = () => {
                   )}
                 </Form.Group>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="auth-button"
                   disabled={isButtonDisabled}
                 >
@@ -127,13 +127,13 @@ const Login = () => {
         </Formik>
 
         <div className="language-switcher">
-          <button 
+          <button
             className="language-button"
             onClick={() => i18n.changeLanguage("es")}
           >
             🇪🇸 Español
           </button>
-          <button 
+          <button
             className="language-button"
             onClick={() => i18n.changeLanguage("en")}
           >

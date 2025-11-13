@@ -5,13 +5,11 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
   const [preview, setPreview] = useState(null);
   const botonId = useId();
 
-  // Exponer método al padre
   useImperativeHandle(ref, () => ({
     reset() {
       setPreview(null);
       handleImgURL(""); 
       
-      // Limpiar el input file
       const input = document.getElementById(botonId);
       if (input) {
         input.value = "";
@@ -59,7 +57,7 @@ const SubirImagen = forwardRef(({ handleImgURL }, ref) => {
 
   const handleClear = () => {
     setPreview(null);
-    handleImgURL(""); // Limpiar en Formik
+    handleImgURL(""); 
     
     // Limpiar el input file
     const input = document.getElementById(botonId);
